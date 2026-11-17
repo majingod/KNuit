@@ -4,41 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--
-      Content Security Policy (tâche 0.5), servie par <meta> pour
-      partir avec les fichiers statiques buildés, sans serveur.
-      Stricte : aucun 'unsafe-inline', aucun 'unsafe-eval', nulle part.
-      Politique nonce/hash : rien d'inline, point — aucun script ni
-      style inline n'existe dans l'app (ni gestionnaire inline), donc
-      aucun nonce ni hash n'est nécessaire. Si un besoin d'inline
-      apparaît un jour, il faudra un nonce ou un hash, jamais
-      'unsafe-inline'.
-      NOTE frame-ancestors (tâche 0.5, validation conditionnelle) :
-      la directive frame-ancestors est MORTE dans un <meta> (elle
-      n'est appliquée que via un en-tête HTTP). Elle a donc été
-      RETIRÉE de cette meta — garder une directive morte créerait
-      une fausse assurance. TODO : porter frame-ancestors (et
-      X-Frame-Options: DENY) en en-tête HTTP avant toute mise en
-      production.
-      Tâche 0.7 : migrer la CSP vers des en-têtes HTTP avant la
-      première mise en ligne — dev : pas de CSP ou CSP permissive
-      explicite ; prod : CSP stricte, non templatée, non copiable.
-      Ne jamais ajouter 'unsafe-inline' à style-src en dev via ce
-      <meta> (refus formel de Master) : la relaxation silencieuse
-      est la porte par laquelle les CSP finissent en 'unsafe-inline'
-      en prod.
-      report-to / report-uri : rien pour l'instant (aucun endpoint).
-      À ajouter en prod quand un endpoint existera, pour détecter
-      les blocages CSP (régressions silencieuses).
-      worker-src : intentionnellement implicite — il retombe sur
-      default-src 'self'. Toute exception future passera par une
-      modification explicite de cette politique.
-      style-src : <style> et el.setAttribute('style', …) sont
-      bloqués ; el.style.prop = … reste autorisé (API DOM, hors CSP).
+      Content Security Policy (tâche 0.7) : livrée par EN-TÊTES HTTP
+      uniquement (plugin Vite dans vite.config.ts, pour dev et preview ;
+      le futur serveur de production doit appliquer exactement les mêmes
+      en-têtes — aucune divergence preview/prod). La <meta> CSP est
+      RETIRÉE : elle ne couvrait ni frame-ancestors, ni les ressources
+      chargées avant elle, et elle était figée dans le HTML au build.
+      Deux sources de vérité (meta + en-têtes) divergeraient.
+      Politique exacte :
+        Content-Security-Policy: default-src 'self'; script-src 'self';
+          style-src 'self'; img-src 'self'; font-src 'self';
+          connect-src 'self'; object-src 'none'; base-uri 'none';
+          form-action 'self'; frame-ancestors 'none'
+        X-Frame-Options: DENY
+        Cache-Control: no-cache (sur /, /index.html, /manifest.webmanifest
+          et /sw.js — sinon un correctif met jusqu'à 24 h à atteindre les
+          utilisateurs derrière le cache HTTP)
+      Aucun 'unsafe-inline', aucun 'unsafe-eval'. Politique nonce/hash :
+      rien d'inline, point. worker-src : intentionnellement implicite
+      (retombe sur default-src 'self'). report-to : à ajouter en prod
+      quand un endpoint existera. style-src : <style> et
+      el.setAttribute('style', …) bloqués ; el.style.prop = …
+      autorisé (API DOM, hors CSP). Le service worker est hors CSP
+      page : toute requête réseau depuis le SW doit être auditée
+      séparément.
     -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'"
-    />
     <link rel="manifest" href="/manifest.webmanifest" />
     <title>Application</title>
   </head>

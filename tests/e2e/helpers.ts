@@ -68,6 +68,34 @@ export async function stopAll(): Promise<void> {
   await sleep(800)
 }
 
+// Arrête UN SEUL processus vite (sans toucher aux autres serveurs
+// partagés du fichier) et le retire de la liste des enfants.
+export function stopChild(child: ChildProcess): void {
+  try {
+    child.kill('SIGKILL')
+  } catch {
+    // Déjà arrêté.
+  }
+  const index = children.indexOf(child)
+  if (index !== -1) {
+    children.splice(index, 1)
+  }
+}
+
+// VRAI hors-ligne (tâche 0.9) : `context.setOffline(true)` NE BLOQUE
+// PAS les fetch() émis depuis le service worker. L'émulation réseau
+// CDP s'applique à la cible de la page, pas à celle du worker : la
+// page est offline (ses requêtes directes échouent), mais le SW
+// atteint encore le serveur — ses fetch() réseau réussissent et
+// servent du frais. Les tests « offline » de 0.7/0.8 qui reposaient
+// sur setOffline seul étaient donc VACUITES : la page se rendait
+// même avec un cache vide. La seule façon fiable de couper le réseau
+// pour le SW aussi est d'ARRÊTER le serveur (connection refused
+// pour chaque fetch, page comme SW). Les tests offline démarrent
+// donc leur propre serveur vite sur un port dédié, puis l'arrêtent
+// (stopChild) avant la phase hors-ligne. setOffline(true) est gardé
+// en ceinture et bretelles pour les requêtes directes de la page.
+
 // Ferme un serveur HTTP en détruisant les connexions keep-alive :
 // sans cela, server.close() attendrait les connexions du navigateur
 // et le port ne serait pas libéré pour le serveur suivant.

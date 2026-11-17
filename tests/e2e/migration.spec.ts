@@ -24,6 +24,7 @@ import {
   startStaticServer,
   startVite,
   stopAll,
+  stopChild,
   swState,
   waitFor,
   waitForServiceWorkerReady,
@@ -123,7 +124,7 @@ test('migration 0.6 → 0.8 : ancien SW actif, bascule, puis offline', async () 
     // Phase 2 : bascule sur le serveur actuel (même port).
     await closeServer(oldServer)
     oldServer = undefined
-    startVite('preview', 4178)
+    const preview = startVite('preview', 4178)
     await waitFor(`${APP}/`)
     let navHeaders: Record<string, string> | null = null
     page.on('response', (response) => {
@@ -160,6 +161,10 @@ test('migration 0.6 → 0.8 : ancien SW actif, bascule, puis offline', async () 
     expect(cached.indexHeaders?.['content-security-policy']).toBe(CSP)
 
     // Phase 3 : offline.
+    // VRAI hors-ligne (tâche 0.9) : on arrête le serveur — sinon le
+    // SW atteindrait encore le réseau malgré setOffline et le reload
+    // servirait du frais (vacuité, voir helpers.ts).
+    stopChild(preview)
     const failed: string[] = []
     page.on('requestfailed', (request) => failed.push(request.url()))
     await context.setOffline(true)

@@ -1,4 +1,4 @@
-// Service worker vide (tâches 0.6, 0.7, 0.8) — PWA hors-ligne, écrit à la main,
+// Service worker vide (tâches 0.6, 0.7, 0.8, 0.9) — PWA hors-ligne, écrit à la main,
 // SANS Workbox (retiré pour le squelette v1, à réévaluer si besoin).
 // Précache uniquement du contenu public neutre (page, manifest, assets) ;
 // jamais de données du coffre — il n'y en a pas encore, et il n'y en
@@ -27,6 +27,10 @@
 //   })
 // Le mécanisme de version force la mise à jour chez les utilisateurs ;
 // le SW de remplacement purge les caches puis se désenregistre.
+// Fenêtre réelle (tâche 0.9) : le kill-switch n'est effectif qu'à la
+// prochaine navigation de chaque utilisateur, au plus tard ~24 h
+// (updateViaCache: 'none' s'applique au sw.js post-0.7, pas au sw.js
+// 0.6 déjà enregistré) — pour un incident réel, ça peut être long.
 // Le service worker est HORS CSP page (tâche 0.7) : les en-têtes CSP de
 // index.html ne s'appliquent pas aux requêtes faites depuis le SW.
 // Toute requête réseau depuis le SW doit être auditée séparément ;
@@ -67,9 +71,11 @@ const PRECACHE_URLS = [
 // déjà '/' en cache à chaque visite en ligne, et le repli hors-ligne
 // essaie d'abord la requête elle-même avant '/index.html' — pré-cacher
 // les deux ne faisait que dupliquer le même HTML.
-// Une réponse redirigée est refusée ici comme dans le handler fetch
-// (cohérence, tâche 0.8) : fetch suit les redirections, donc une
-// réponse redirected: true serait sinon stockée sous l'URL demandée.
+// Une réponse redirigée ou de type non 'basic' est refusée ici
+// comme dans le handler fetch (cohérence, tâches 0.8 et 0.9) : fetch
+// suit les redirections, donc une réponse redirected: true serait
+// sinon stockée sous l'URL demandée ; une réponse opaque ('cors',
+// 'opaque') ne doit pas entrer dans le pré-cache.
 self.addEventListener('install', (event) => {
   event.waitUntil(
     self.caches
@@ -78,10 +84,17 @@ self.addEventListener('install', (event) => {
         Promise.allSettled(
           PRECACHE_URLS.map((url) =>
             fetch(new Request(url, { cache: 'reload' })).then((response) => {
-              if (!response.ok || response.redirected) {
+              if (
+                !response.ok ||
+                response.redirected ||
+                response.type !== 'basic'
+              ) {
                 throw new Error(
                   `Pré-cache impossible pour ${url} : HTTP ${response.status}` +
-                    (response.redirected ? ' (redirection)' : ''),
+                    (response.redirected ? ' (redirection)' : '') +
+                    (response.type !== 'basic'
+                      ? ` (type ${response.type})`
+                      : ''),
                 )
               }
               return cache.put(url, response)
@@ -128,7 +141,7 @@ self.addEventListener('activate', (event) => {
   )
 })
 
-// Fetch handler (audité, tâches 0.7 et 0.8) :
+// Fetch handler (audité, tâches 0.7, 0.8 et 0.9) :
 // - hors origine ou non-GET : on laisse passer, jamais mis en cache.
 // - on ne met en cache qu'une réponse 200 ('ok'), de type 'basic'
 //   (même origine) et non redirigée : jamais de 404, de redirection,
@@ -140,7 +153,12 @@ self.addEventListener('activate', (event) => {
 //   être terminé avant l'écriture), et un ÉCHEC de cache.put ne fait
 //   pas échouer la requête : la réponse déjà en main est servie
 //   (tâche 0.8 — sinon une navigation servait du stale et un asset
-//   renvoyait 503 pour une raison purement interne au SW).
+//   renvoyait 503 pour une raison purement interne au SW). L'échec de
+//   put est journalisé (console.warn, tâche 0.9) : un put qui échoue
+//   en boucle serait sinon indétectable.
+// - un ÉCHEC de caches.open ne fait pas échouer la requête non plus
+//   (tâche 0.9) : la réponse fraîche déjà en main est servie, même
+//   classe de bug que cache.put, au niveau du open.
 // - les lectures en cache sont SCOPÉES à CACHE_NAME (tâche 0.8) : un
 //   ancien cache qui survivrait à une purge partielle ne peut plus
 //   satisfaire un match.
@@ -164,15 +182,26 @@ self.addEventListener('fetch', (event) => {
       return response
     }
     const copy = response.clone()
-    return cache
-      .put(key, copy)
-      .then(
-        () => response,
-        () => response,
-      )
+    return cache.put(key, copy).then(
+      () => response,
+      () => {
+        console.warn('cache.put failed for', key)
+        return response
+      },
+    )
   }
   const matchCache = (key) =>
-    self.caches.open(CACHE_NAME).then((cache) => cache.match(key))
+    self.caches
+      .open(CACHE_NAME)
+      // ignoreVary: true (tâche 0.9) : le serveur sert les assets
+      // avec `Vary: Origin`, mais les requêtes mises en pré-cache
+      // n'ont pas d'en-tête Origin alors que les requêtes réelles du
+      // navigateur (module JS, CSS avec crossorigin) en ont un. Sans
+      // ignoreVary, cache.match() rate sur l'en-tête Origin et
+      // l'asset tombe en 503 hors-ligne — alors qu'il est en cache.
+      // Le cache ne contient que des assets statiques same-origin,
+      // donc Vary est sans objet ici.
+      .then((cache) => cache.match(key, { ignoreVary: true }))
   // Navigation : réseau d'abord, repli sur la page en cache hors-ligne.
   if (request.mode === 'navigate') {
     event.respondWith(
@@ -180,8 +209,15 @@ self.addEventListener('fetch', (event) => {
         .then((response) =>
           self.caches
             .open(CACHE_NAME)
-            .then((cache) => cacheResponse(cache, request, response)),
+            .then(
+              (cache) => cacheResponse(cache, request, response),
+              () => response,
+            ),
         )
+        // Si les deux match échouent, la promesse se résout à null :
+        // respondWith(null) → erreur réseau du navigateur, qui affiche
+        // sa page hors-ligne. Ne pas remplacer par un 503 : ce serait
+        // une régression UX (tâche 0.9).
         .catch(() =>
           matchCache(request).then(
             (cached) => cached || matchCache('/index.html'),
@@ -199,7 +235,13 @@ self.addEventListener('fetch', (event) => {
           fetch(request).then((response) =>
             self.caches
               .open(CACHE_NAME)
-              .then((cache) => cacheResponse(cache, request, response)),
+              // Comme dans le chemin navigate (tâche 0.9, revue de Master) :
+              // un échec de caches.open ne doit pas faire échouer la
+              // requête — la réponse fraîche déjà en main est servie.
+              .then(
+                (cache) => cacheResponse(cache, request, response),
+                () => response,
+              ),
           ),
       )
       .catch(

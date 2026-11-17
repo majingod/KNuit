@@ -307,7 +307,8 @@ export default [
     rules: coreRules,
   },
   {
-    // Code applicatif : vecteurs généralisés pour write / open / close.
+    // Code applicatif : write / writeln généralisés, open / close
+    // restreints à document et window.document (voir ci-dessus).
     files: ['src/**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx}'],
     rules: {
       'no-restricted-syntax': ['error', ...srcVectors],

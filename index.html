@@ -12,16 +12,34 @@
       aucun nonce ni hash n'est nécessaire. Si un besoin d'inline
       apparaît un jour, il faudra un nonce ou un hash, jamais
       'unsafe-inline'.
-      Note : une <meta> CSP ne couvre pas frame-ancestors dans tous
-      les navigateurs (cette directive n'est appliquée que via un
-      en-tête HTTP) ; elle est gardée ici comme documentation de
-      l'intention, et devra être servie par en-tête HTTP si un jour
-      un serveur entre en jeu.
+      NOTE frame-ancestors (tâche 0.5, validation conditionnelle) :
+      la directive frame-ancestors est MORTE dans un <meta> (elle
+      n'est appliquée que via un en-tête HTTP). Elle a donc été
+      RETIRÉE de cette meta — garder une directive morte créerait
+      une fausse assurance. TODO : porter frame-ancestors (et
+      X-Frame-Options: DENY) en en-tête HTTP avant toute mise en
+      production.
+      Tâche 0.7 : migrer la CSP vers des en-têtes HTTP avant la
+      première mise en ligne — dev : pas de CSP ou CSP permissive
+      explicite ; prod : CSP stricte, non templatée, non copiable.
+      Ne jamais ajouter 'unsafe-inline' à style-src en dev via ce
+      <meta> (refus formel de Master) : la relaxation silencieuse
+      est la porte par laquelle les CSP finissent en 'unsafe-inline'
+      en prod.
+      report-to / report-uri : rien pour l'instant (aucun endpoint).
+      À ajouter en prod quand un endpoint existera, pour détecter
+      les blocages CSP (régressions silencieuses).
+      worker-src : intentionnellement implicite — il retombe sur
+      default-src 'self'. Toute exception future passera par une
+      modification explicite de cette politique.
+      style-src : <style> et el.setAttribute('style', …) sont
+      bloqués ; el.style.prop = … reste autorisé (API DOM, hors CSP).
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'"
     />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <title>Application</title>
   </head>
   <body>

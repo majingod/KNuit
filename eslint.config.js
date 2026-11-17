@@ -22,14 +22,19 @@
 // tsconfig.app.json et tsconfig.node.json).
 // Redondances volontaires (défense en profondeur) : no-eval /
 // no-implied-eval / no-new-func se recoupent avec les sélecteurs
-// window/globalThis ci-dessous ; elles sont gardées.
-// setHTML (assaini par conception) reste autorisé ; seul setHTMLUnsafe
-// est interdit. Le spread JSX {...props} reste non analysable.
-// Les sélecteurs write / writeln / open / close généralisés ne
-// s'appliquent qu'à src/** (fail-closed : window.open et ws.close y
-// sont aussi signalés) pour ne pas gêner process.stdout.write côté
-// Node. Les fichiers de config (vite.config.*, eslint.config.js) ont
-// les globals Node ; src/ n'a que les globals navigateur.
+// window/globalThis ci-dessous ; elles sont gardées. no-eval couvre
+// déjà eval direct et indirect ((0, eval)(...) et const e = eval) :
+// aucun sélecteur CallExpression[callee.name="eval"] n'est nécessaire.
+// setHTML (API Sanitizer, assaini par conception) reste autorisé :
+// whitelist intentionnelle, seul setHTMLUnsafe est interdit.
+// Le spread JSX {...props} reste non analysable.
+// Les sélecteurs write / writeln généralisés ne s'appliquent qu'à
+// src/** pour ne pas gêner process.stdout.write côté Node.
+// Les sélecteurs open / close sont restreints aux objets document et
+// window.document uniquement : ws.close() et window.open() (légitimes)
+// passent le lint. Les fichiers de config (vite.config.*,
+// eslint.config.js) ont les globals Node ; src/ n'a que les globals
+// navigateur.
 import js from '@eslint/js'
 import babelParser from '@babel/eslint-parser'
 import globals from 'globals'
@@ -78,10 +83,6 @@ const coreVectors = [
       'eval est interdit, y compris via window.eval ou globalThis.eval.',
   },
   {
-    selector: 'CallExpression[callee.name="eval"]',
-    message: 'eval est interdit.',
-  },
-  {
     selector:
       'NewExpression[callee.object.name="window"][callee.property.name="Function"], NewExpression[callee.object.name="window"][callee.property.value="Function"], NewExpression[callee.object.name="globalThis"][callee.property.name="Function"], NewExpression[callee.object.name="globalThis"][callee.property.value="Function"]',
     message:
@@ -123,7 +124,7 @@ const coreVectors = [
   },
 ]
 
-// write / writeln / open / close hors src/** : formes contraintes à
+// write / writeln hors src/** : formes contraintes à
 // document (et window.document), pour ne pas gêner le code Node.
 const constrainedWriteVectors = [
   {
@@ -136,6 +137,12 @@ const constrainedWriteVectors = [
       'MemberExpression[object.name="document"][property.name="writeln"], MemberExpression[object.name="document"][property.value="writeln"], MemberExpression[object.object.name="window"][object.property.name="document"][property.name="writeln"], MemberExpression[object.object.name="window"][object.property.name="document"][property.value="writeln"]',
     message: 'document.writeln est interdit : même vecteur que document.write.',
   },
+]
+
+// open / close : restreints aux objets document et window.document
+// uniquement, partout (src/** comme hors src/). ws.close() et
+// window.open() (légitimes) ne sont pas visés.
+const constrainedOpenCloseVectors = [
   {
     selector:
       'MemberExpression[object.name="document"][property.name="open"], MemberExpression[object.name="document"][property.value="open"], MemberExpression[object.object.name="window"][object.property.name="document"][property.name="open"], MemberExpression[object.object.name="window"][object.property.name="document"][property.value="open"]',
@@ -149,11 +156,13 @@ const constrainedWriteVectors = [
   },
 ]
 
-// write / writeln / open / close dans src/** : généralisés par nom de
-// propriété, sans contrainte d'objet (couvre document, window.document,
+// write / writeln dans src/** : généralisés par nom de propriété,
+// sans contrainte d'objet (couvre document, window.document,
 // globalThis.document, self/top/parent.document et les alias
-// const d = document). Fail-closed : window.open et ws.close y sont
-// aussi signalés.
+// const d = document). open / close ne sont PAS généralisés ici :
+// ils restent restreints à document et window.document (voir
+// constrainedOpenCloseVectors) pour ne pas signaler ws.close() ou
+// window.open().
 const generalizedWriteVectors = [
   {
     selector:
@@ -166,21 +175,18 @@ const generalizedWriteVectors = [
       'MemberExpression[property.name="writeln"], MemberExpression[property.value="writeln"]',
     message: '.writeln est interdit dans src/ : même vecteur que .write.',
   },
-  {
-    selector:
-      'MemberExpression[property.name="open"], MemberExpression[property.value="open"]',
-    message:
-      '.open est interdit dans src/ : document.open contourne l’interdiction de document.write.',
-  },
-  {
-    selector:
-      'MemberExpression[property.name="close"], MemberExpression[property.value="close"]',
-    message: '.close est interdit dans src/ : même vecteur que .open.',
-  },
 ]
 
-const srcVectors = [...coreVectors, ...generalizedWriteVectors]
-const otherVectors = [...coreVectors, ...constrainedWriteVectors]
+const srcVectors = [
+  ...coreVectors,
+  ...generalizedWriteVectors,
+  ...constrainedOpenCloseVectors,
+]
+const otherVectors = [
+  ...coreVectors,
+  ...constrainedWriteVectors,
+  ...constrainedOpenCloseVectors,
+]
 
 const coreRules = {
   'no-eval': 'error',

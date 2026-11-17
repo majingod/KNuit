@@ -3,6 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Content Security Policy (tâche 0.5), servie par <meta> pour
+      partir avec les fichiers statiques buildés, sans serveur.
+      Stricte : aucun 'unsafe-inline', aucun 'unsafe-eval', nulle part.
+      Politique nonce/hash : rien d'inline, point — aucun script ni
+      style inline n'existe dans l'app (ni gestionnaire inline), donc
+      aucun nonce ni hash n'est nécessaire. Si un besoin d'inline
+      apparaît un jour, il faudra un nonce ou un hash, jamais
+      'unsafe-inline'.
+      Note : une <meta> CSP ne couvre pas frame-ancestors dans tous
+      les navigateurs (cette directive n'est appliquée que via un
+      en-tête HTTP) ; elle est gardée ici comme documentation de
+      l'intention, et devra être servie par en-tête HTTP si un jour
+      un serveur entre en jeu.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    />
     <title>Application</title>
   </head>
   <body>

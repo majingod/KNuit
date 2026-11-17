@@ -184,7 +184,12 @@ export async function inspectCache(page: Page): Promise<{
 export interface StaticOverride {
   status?: number
   headers?: Record<string, string>
-  body?: string | Buffer
+  // Corps fixe, ou fonction appelée à chaque requête (tâche 1.0 :
+  // l'endpoint /api/status de test renvoie un compteur qui
+  // s'incrémente à chaque appel — deux réponses successives
+  // différentes prouvent que les deux requêtes ont touché le réseau
+  // et qu'aucune n'a été servie depuis le cache du SW).
+  body?: string | Buffer | (() => string | Buffer)
 }
 
 const MIME: Record<string, string> = {
@@ -217,11 +222,13 @@ export async function startStaticServer(
     }
     if (override?.body !== undefined) {
       const extension = pathname === '/' ? '.html' : path.extname(pathname)
+      const body =
+        typeof override.body === 'function' ? override.body() : override.body
       response.writeHead(override.status ?? 200, {
         'content-type': MIME[extension] ?? 'application/octet-stream',
         ...headers,
       })
-      response.end(override.body)
+      response.end(body)
       return
     }
     const file = path.join(root, pathname === '/' ? 'index.html' : pathname)

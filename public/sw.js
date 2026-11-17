@@ -1,4 +1,4 @@
-// Service worker vide (tâches 0.6, 0.7, 0.8, 0.9) — PWA hors-ligne, écrit à la main,
+// Service worker vide (tâches 0.6, 0.7, 0.8, 0.9, 1.0) — PWA hors-ligne, écrit à la main,
 // SANS Workbox (retiré pour le squelette v1, à réévaluer si besoin).
 // Précache uniquement du contenu public neutre (page, manifest, assets) ;
 // jamais de données du coffre — il n'y en a pas encore, et il n'y en
@@ -43,15 +43,30 @@
 // donc pas du runtime caching pour les assets de l'app. Aucun fetch cross-origin
 // n'est fait par ce service worker ; toute ressource cross-origin
 // future exigera une entrée connect-src explicite dans la CSP.
-// DETTE CONSCIENTE (tâche 0.8, second avis) : le handler non-navigate
-// met en cache TOUTE ressource same-origin GET qui retourne 200 —
-// aujourd'hui ce ne peut être que des assets hachés et le manifest,
-// donc sain. Dès qu'un endpoint API same-origin existera (même un
-// simple /api/status), il serait silencieusement mis en cache : il
-// faudra alors restreindre le runtime caching à une allowlist
-// d'extensions (.js, .css, .webmanifest, images, polices). En
-// attendant, la règle « jamais de données du coffre dans le SW »
-// interdit de toute façon toute donnée applicative ici.
+// DETTE PARTIELLEMENT RÉSOLUE EN 1.0, COMPLÉTÉE PAR LA GARDE /api/
+// (était « dette consciente » en 0.8) : le handler non-navigate
+// mettait en cache TOUTE ressource same-origin GET qui retournait
+// 200 — aujourd'hui ce ne peut être que des assets hachés et le
+// manifest, donc sain, mais dès qu'un endpoint API same-origin
+// existerait (même un simple /api/status), il serait silencieusement
+// mis en cache et resservi avec le mauvais Origin (combiné à
+// ignoreVary: true, problème de correction de données). La garde est
+// donc en place AVANT le premier endpoint, en deux couches :
+// isCacheableAsset() ci-dessous n'autorise que les extensions de
+// l'allowlist (.js, .css, .webmanifest, images, polices, .html,
+// .ico) ; .json est EXCLU délibérément (strict — à étendre seulement
+// si un besoin réel apparaît) ; tout le reste passe en network-only,
+// jamais mis en cache. Les endpoints sans extension et les extensions
+// non listées sont protégés par l'allowlist ; la garde
+// startsWith('/api/') ferme le cas des endpoints AVEC une extension
+// listée (ex. /api/data.js) — maintenir les deux. La personne qui
+// écrira le premier /api/status n'aura pas à lire ce commentaire
+// pour être protégée, tant que l'endpoint n'utilise pas une extension
+// de l'allowlist ; la garde /api/ couvre ce cas. Note : .html est
+// dans l'allowlist, donc un futur /admin.html ou /debug.html serait
+// caché — à surveiller quand du contenu métier arrive. En attendant,
+// la règle « jamais de données du coffre dans le SW » interdit de
+// toute façon toute donnée applicative ici.
 const CACHE_VERSION = '__SW_VERSION__'
 const CACHE_NAME = `knuit-${CACHE_VERSION}`
 const PRECACHE_URLS = [
@@ -165,9 +180,50 @@ self.addEventListener('activate', (event) => {
 // - navigations : réseau d'abord (cache: 'reload' pour contourner le
 //   cache HTTP), repli sur la page en cache hors-ligne — d'abord la
 //   requête elle-même (copie fraîche de '/'), puis '/index.html'.
+// Allowlist du runtime caching (tâche 1.0, Haute) : seules les
+// ressources statiques dont l'extension est listée ici peuvent être
+// mises en cache à la demande. Tout le reste (endpoints API, .json,
+// chemins sans extension comme /api/status) passe en network-only :
+// jamais lu depuis le cache, jamais écrit dedans. L'extension est
+// lue sur le pathname, en minuscules ; un chemin sans extension ou
+// dont le point est dans un segment de dossier n'est pas cacheable.
 // - autres ressources same-origin : cache d'abord, puis réseau, avec
 //   un catch qui retourne une 503 minimale si le fetch échoue et que
-//   l'asset n'est pas en cache (première visite hors-ligne).
+//   l'asset n'est pas en cache (première visite hors-ligne) — sauf
+//   pour les ressources hors allowlist, qui sont network-only et
+//   retournent aussi la 503 en cas d'échec réseau (jamais de cache).
+const CACHEABLE_EXTENSIONS = new Set([
+  '.js',
+  '.css',
+  '.webmanifest',
+  '.html',
+  '.ico',
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.gif',
+  '.webp',
+  '.svg',
+  '.avif',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.otf',
+])
+const isCacheableAsset = (url) => {
+  // Garde /api/ (tâche 1.0, revue de Master) : une route API portant
+  // une extension listée (ex. /api/data.js) passerait sinon
+  // l'allowlist — l'extension seule ne suffit pas à distinguer un
+  // asset statique d'un endpoint. Toute route sous /api/ est
+  // network-only, quelle que soit son extension.
+  if (url.pathname.startsWith('/api/')) return false
+  const pathname = url.pathname
+  const dot = pathname.lastIndexOf('.')
+  if (dot === -1 || dot < pathname.lastIndexOf('/')) {
+    return false
+  }
+  return CACHEABLE_EXTENSIONS.has(pathname.slice(dot).toLowerCase())
+}
 self.addEventListener('fetch', (event) => {
   const { request } = event
   const url = new URL(request.url)
@@ -185,7 +241,7 @@ self.addEventListener('fetch', (event) => {
     return cache.put(key, copy).then(
       () => response,
       () => {
-        console.warn('cache.put failed for', key)
+        console.warn('cache.put failed for', key.url || key)
         return response
       },
     )
@@ -201,6 +257,16 @@ self.addEventListener('fetch', (event) => {
       // l'asset tombe en 503 hors-ligne — alors qu'il est en cache.
       // Le cache ne contient que des assets statiques same-origin,
       // donc Vary est sans objet ici.
+      // DETTE (tâche 1.0, M2) : ignoreVary: true devra être réévalué
+      // en même temps que l'allowlist d'extensions — les deux sont
+      // liés au même scénario d'endpoint API same-origin. Maintenant
+      // que l'allowlist existe, le déclencheur de réévaluation est
+      // défini : dès qu'un endpoint API same-origin entrera, revoir
+      // les deux ensemble.
+      // Note : ignoreVary: true s'applique aussi à
+      // matchCache('/index.html') — sans effet sur une clé chaîne
+      // (pas de Vary à comparer), le paramètre est simplement le même
+      // pour toutes les lectures en cache.
       .then((cache) => cache.match(key, { ignoreVary: true }))
   // Navigation : réseau d'abord, repli sur la page en cache hors-ligne.
   if (request.mode === 'navigate') {
@@ -218,15 +284,39 @@ self.addEventListener('fetch', (event) => {
         // respondWith(null) → erreur réseau du navigateur, qui affiche
         // sa page hors-ligne. Ne pas remplacer par un 503 : ce serait
         // une régression UX (tâche 0.9).
+        // Choix explicite (tâche 1.0, Basse) : chaque matchCache porte
+        // son propre .catch(() => null) — un cache supprimé en course
+        // pendant le repli ne rejette donc jamais silencieusement, il
+        // se résout à null, ce qui est exactement le comportement
+        // documenté ci-dessus. On ne loggue pas : ce cas est
+        // équivalent au null, pas une erreur à surveiller.
         .catch(() =>
-          matchCache(request).then(
-            (cached) => cached || matchCache('/index.html'),
-          ),
+          matchCache(request)
+            .catch(() => null)
+            .then(
+              (cached) =>
+                cached || matchCache('/index.html').catch(() => null),
+            ),
         ),
     )
     return
   }
-  // Autre ressource same-origin (JS, CSS, manifest…) : cache d'abord.
+  // Autre ressource same-origin (JS, CSS, manifest…) : cache d'abord
+  // si elle est dans l'allowlist, network-only sinon (tâche 1.0).
+  const offline503 = () =>
+    new Response('', {
+      status: 503,
+      statusText: 'Service Unavailable',
+      headers: { 'Content-Type': 'text/plain' },
+    })
+  if (!isCacheableAsset(url)) {
+    // Hors allowlist (endpoint API, .json, chemin sans extension) :
+    // jamais lu depuis le cache, jamais écrit dedans — la réponse
+    // fraîche est servie, et un échec réseau donne la même 503
+    // minimale que pour un asset non caché en première visite.
+    event.respondWith(fetch(request).catch(() => offline503()))
+    return
+  }
   event.respondWith(
     matchCache(request)
       .then(
@@ -244,13 +334,6 @@ self.addEventListener('fetch', (event) => {
               ),
           ),
       )
-      .catch(
-        () =>
-          new Response('', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: { 'Content-Type': 'text/plain' },
-          }),
-      ),
+      .catch(() => offline503()),
   )
 })

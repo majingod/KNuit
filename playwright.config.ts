@@ -6,6 +6,10 @@
 // les tests partagent le port et le dossier dist/ (le test kill-switch
 // remplace dist/sw.js puis le restaure), donc le parallélisme
 // casserait la déterminisme. `npm run test:e2e` fait le build avant.
+// Ports des serveurs de test (tâche 1.0) : le port 4190 est INTERDIT —
+// le fetch() de Node le refuse (« bad port », liste des ports bloqués
+// d'undici, Node 24), donc un serveur sur 4190 serait injoignable et
+// waitFor ne réussirait jamais. Ne pas réutiliser 4190.
 import { defineConfig } from '@playwright/test'
 
 export default defineConfig({

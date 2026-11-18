@@ -10,3 +10,29 @@
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
 }
+
+/* Cible tactile 48px minimum sur mobile (1.2c) : les liens du
+   footer sont des cibles inline-flex de 48px de haut — mesuré par
+   le test footer-keyboard.spec.ts (boundingBox ≥ 48px), pas affirmé.
+   Ordre de tabulation = ordre DOM (1.2c) : aucun tabindex, aucune
+   propriété order — le flex ne réordonne rien ; vérifié au clavier
+   par le même test. */
+.footer nav a {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 0.75rem;
+}
+
+/* Indicateur de focus visible AU CLAVIER (1.2c) : :focus-visible
+   ne s'applique qu'à la navigation clavier (pas au clic souris) —
+   c'est le comportement voulu, pas un oubli. outline en
+   currentColor (couleur du texte du lien, lisible par construction
+   sur le fond) : visible en thème clair comme sombre, sans couleur
+   codée en dur. Le contrôle négatif (retirer cette règle) fait
+   échouer le test footer-keyboard — vérifié le 2026-11-18. */
+.footer nav a:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}

@@ -1,8 +1,10 @@
 import './footer.css'
 
 // Pied de page — contenu neutre en JSX pur (Option 2, décision
-// Master 2026-11-17). Intégré dans app.tsx, visible sur TOUTES les
-// pages (accueil, /urgence, /about, /legal).
+// Master 2026-11-17). Intégré dans app.tsx, visible sur toutes
+// les pages SAUF /urgence (footer masqué sur /urgence — décision
+// Master 2026-11-17, Haute n°1, zéro distraction sur une page
+// de sécurité).
 export function Footer() {
   return (
     <footer className="footer">

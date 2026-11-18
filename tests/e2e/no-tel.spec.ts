@@ -37,6 +37,11 @@
 //     couvre les formulations d'appel actives, pas les mentions
 //     descriptives — <p>Numéro : 15</p>, <p>Le 15 est le SAMU</p>,
 //     <p>En cas d'urgence, 15.</p> passent le test.
+//     Périmètre du scan « sources » (1.3) : src/ (.tsx/.css) +
+//     index.html à la racine — pas tout le repo. Le fixture
+//     (tests/fixtures/) n'est scanné que par le test « dist » (via
+//     la copie dans dist/__no-tel-fixture__/) ; un .css ajouté dans
+//     tests/ avec un numéro légitime ne serait pas scanné.
 // Contrôle positif (1.2a) : le fixture tests/fixtures/
 // no-tel-positive/ contient les onze occurrences légitimes
 // (.col-15, opacity: 0.15, 15%, [1, 15, 20], #144, #911, #112,

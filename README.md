@@ -211,6 +211,11 @@ Commentaires (pratique établie) : aucun commentaire n'affirme un
 comportement non vérifié — soit vérifié, soit supprimé. Un
 commentaire faux est plus dangereux qu'un commentaire absent,
 parce qu'il est cru.
+Comportement (pratique établie, 1.3) : toute modification de
+comportement → grep des commentaires qui l'affirment dans le même
+commit. Le commentaire faux de footer.tsx (« visible sur TOUTES les
+pages ») a survécu 2 pushes ; à la 3ᵉ occurrence, sur un
+comportement de sécurité, le coût serait plus élevé.
 
 ### Contenu neutre et engagements
 

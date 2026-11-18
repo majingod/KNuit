@@ -117,6 +117,16 @@ const coreVectors = [
       'innerHTML, outerHTML, srcDoc et dangerouslySetInnerHTML sont interdits en props JSX.',
   },
   {
+    // Les liens tel: sont interdits partout (Phase 1, Option 2,
+    // décision Master 2026-11-17, Haute n°2) : l'app ne doit jamais
+    // composer de numéro de téléphone. Le numéro d'urgence est du
+    // texte, pas un appel — l'utilisateur contacte lui-même les
+    // services d'urgence avec son propre téléphone.
+    selector: 'JSXAttribute[name.name="href"][value.value=/^tel:/i]',
+    message:
+      'Les liens tel: sont interdits — l’app ne doit jamais composer de numéro de téléphone.',
+  },
+  {
     selector:
       'ObjectExpression > Property[key.name="innerHTML"], ObjectExpression > Property[key.name="dangerouslySetInnerHTML"]',
     message:

@@ -1,0 +1,12 @@
+.footer {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1rem;
+  border-top: 1px solid currentColor;
+}
+
+.footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}

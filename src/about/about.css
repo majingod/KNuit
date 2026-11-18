@@ -1,0 +1,19 @@
+.about {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.about h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+}
+
+.about h2 {
+  font-size: 1.125rem;
+  margin: 1rem 0 0.25rem;
+}
+
+.about p {
+  margin: 0 0 0.5rem;
+}

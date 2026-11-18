@@ -189,3 +189,39 @@ mécanisme qui l'empêche est dans le dépôt, pas dans la discipline :
    sont du texte rendu via `{}` en JSX ; Preact échappe
    automatiquement. Ne jamais utiliser `dangerouslySetInnerHTML`
    pour rendre ce contenu.
+
+### Aucun appel téléphonique (exigence)
+
+Aucun lien `tel:`, aucun numéro d'urgence codé en dur dans le
+built output. Une PR qui en ajoute est refusée. Vérifié par ESLint
+(sélecteur `href` `tel:` dans `no-restricted-syntax`, `coreVectors`,
+`eslint.config.js`) + test built output
+(`tests/e2e/no-tel.spec.ts`, motifs vérifiés zéro faux positif sur
+le dist/ du 2026-11-17, contrôle négatif par injection d'un
+`tel:911`). Les numéros d'urgence sont du texte, pas un appel :
+l'utilisateur contacte lui-même les services d'urgence de son
+pays avec son propre téléphone. Limite honnête : une construction
+dynamique (`'tel:' + x`) échappe à l'ESLint statique et au grep —
+résidu assumé (voir `task-1.2-scope.md`), pas à prétendre résolu.
+
+### Contenu neutre et engagements
+
+- Toute PR qui ajoute sync / compte / analytics → mettre à jour
+  `about.tsx` et `legal.tsx` dans la même PR : les affirmations
+  « Aucun compte, aucune synchronisation, aucun envoi de données
+  vers un serveur » deviendraient fausses. Le contenu neutre est
+  en JSX pur, hors gate `CONTENT-STATUS.md` : sans cette règle,
+  la dérive est certaine.
+- « Le mode à deux viendra dans une version ultérieure »
+  (`about.tsx`) est un engagement visible, non daté : acceptable
+  en privé, à reconsidérer en public.
+- « Certaines pages sont des contenus de démonstration »
+  (`about.tsx`) deviendra faux quand tous les contenus seront
+  validés.
+
+### Avant tout déploiement
+
+- Mettre à jour `legal.tsx` avec identité d'éditeur, hébergeur,
+  politique de confidentialité complète (les mentions actuelles
+  disent explicitement qu'elles seront complétées avant toute
+  publication).

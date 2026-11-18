@@ -31,7 +31,7 @@ let browser: Browser
 // Placeholder exact (src/urgence/content.json, Voie A).
 const TITRE = 'Mode Urgence (démonstration)'
 const AVERTISSEMENT =
-  "Contenu de démonstration — pipeline uniquement. En cas d'urgence réelle, appelez le 911 (Canada) ou le numéro d'urgence local."
+  "Contenu de démonstration — pipeline uniquement. En cas d'urgence réelle, contactez vous-même les services d'urgence de votre pays avec votre propre téléphone."
 const INTRODUCTION = 'Ceci est un test de pipeline, pas un mode urgence.'
 
 test.beforeAll(async () => {
@@ -49,7 +49,13 @@ test('online : la page d’accueil lie vers Mode Urgence', async () => {
   const context = await browser.newContext()
   const page = await context.newPage()
   await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
-  const link = page.getByRole('link', { name: 'Mode Urgence' })
+  // Scopé à <main> : le footer (Option 2) contient un second lien
+  // « Mode Urgence » vers la même destination. Ce test porte sur le
+  // lien d'accès rapide du contenu principal (viewport), pas sur
+  // celui du pied de page.
+  const link = page
+    .getByRole('main')
+    .getByRole('link', { name: 'Mode Urgence' })
   await expect(link).toHaveAttribute('href', '/urgence')
   // Accès rapide en urgence : le lien doit être visible sans scroller.
   await expect(link).toBeInViewport()

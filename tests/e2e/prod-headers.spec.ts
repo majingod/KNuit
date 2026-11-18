@@ -72,3 +72,29 @@ test('serveur statique réel : aucune <meta> CSP dans le HTML servi', async () =
   const html = await (await fetch(`${BASE}/`)).text()
   expect(html).not.toContain('http-equiv="Content-Security-Policy"')
 })
+
+// Fallback SPA (Phase 1, tâche 1, Voie A) : en production, /urgence
+// doit être servi par l'hébergeur comme /index.html (try_files $uri
+// /index.html). prod-headers teste les en-têtes, pas ce fallback : si
+// l'hébergeur ne le fait pas, /urgence → 404 en prod alors que le test
+// passe en preview (Vite fait le fallback). Ce test prouve l'exigence
+// et que le serveur DE TEST l'implémente — même nuance que
+// prod-headers (vérificateur, pas prod) : la config de l'hébergeur
+// réel sera validée au premier déploiement (tâche 1.1, curl -I).
+test('serveur statique réel : fallback SPA — GET /urgence retourne 200 avec le HTML de index.html', async () => {
+  const indexHtml = await (await fetch(`${BASE}/`)).text()
+  const response = await fetch(`${BASE}/urgence`)
+  expect(response.status).toBe(200)
+  expect(response.headers.get('content-type')).toContain('text/html')
+  const html = await response.text()
+  expect(html).toBe(indexHtml)
+  expect(html).toContain('<div id="app">')
+})
+
+// Contrôle négatif du fallback : un asset manquant reste un 404 —
+// le fallback ne doit pas avaler les assets (le test « 404 du
+// manifest » de fresh-offline.spec.ts en dépend aussi).
+test('serveur statique réel : fallback SPA — un asset manquant reste un 404', async () => {
+  const response = await fetch(`${BASE}/assets/inexistant.js`)
+  expect(response.status).toBe(404)
+})

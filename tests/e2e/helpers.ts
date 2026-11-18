@@ -233,6 +233,30 @@ export async function startStaticServer(
     }
     const file = path.join(root, pathname === '/' ? 'index.html' : pathname)
     if (!existsSync(file) || statSync(file).isDirectory()) {
+      // Fallback SPA (Phase 1, tâche 1, Voie A) : un chemin sans
+      // extension (route applicative comme /urgence) est servi avec
+      // index.html — c'est le comportement attendu d'un hébergeur SPA
+      // (try_files $uri /index.html). Un chemin AVEC extension (asset
+      // manquant, ex. /manifest.webmanifest absent) reste un 404 : un
+      // asset n'est jamais une route. Un statut explicite dans
+      // l'override est respecté tel quel (pas de fallback).
+      // Portée honnête : ce serveur de test prouve l'exigence et
+      // qu'il l'implémente ; la config de l'hébergeur réel sera
+      // validée au premier déploiement (tâche 1.1, curl -I) — même
+      // nuance que prod-headers (vérificateur, pas prod).
+      const indexFile = path.join(root, 'index.html')
+      if (
+        override?.status === undefined &&
+        path.extname(pathname) === '' &&
+        existsSync(indexFile)
+      ) {
+        response.writeHead(200, {
+          ...headers,
+          'content-type': 'text/html',
+        })
+        createReadStream(indexFile).pipe(response)
+        return
+      }
       response.writeHead(override?.status ?? 404, headers)
       response.end('not found')
       return

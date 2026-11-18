@@ -307,6 +307,18 @@ export default [
     rules: coreRules,
   },
   {
+    // Scripts Node (gate de validation du contenu, Phase 1, Option 1) :
+    // globals Node, pas navigateur — process.argv / process.exitCode
+    // sont nécessaires au CLI. Mêmes règles que les autres fichiers JS.
+    files: ['scripts/**/*.{js,mjs}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.node,
+    },
+    rules: coreRules,
+  },
+  {
     // Code applicatif : write / writeln généralisés, open / close
     // restreints à document et window.document (voir ci-dessus).
     files: ['src/**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx}'],

@@ -2,8 +2,16 @@
 // Reprend les patterns des tests manuels 0.7 (démarrage de vite par
 // son binaire direct, pour que le signal d'arrêt atteigne vite
 // lui-même ; inspection du Cache Storage depuis la page).
-import { spawn, type ChildProcess } from 'node:child_process'
+import { execFile, spawn, type ChildProcess } from 'node:child_process'
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs'
+import {
+  cp,
+  lstat,
+  readFile,
+  rm,
+  symlink,
+  writeFile,
+} from 'node:fs/promises'
 import http, { type Server } from 'node:http'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -276,4 +284,89 @@ export async function startStaticServer(
 
 export function readDistFile(relative: string): string {
   return readFileSync(path.join(DIST, relative), 'utf8')
+}
+
+// Construction d'une variante de contenu dans une COPIE du projet
+// (Phase 1, tâche 1, Voie A) : le JSON est inliné dans le bundle par
+// Vite (Option A), pas fetché — on ne peut pas le changer à
+// l'exécution. Ce helper copie le projet dans /tmp, y écrit la
+// variante (dans la copie uniquement), la build, et sert ce build
+// sur un port dédié. Le content.json réel n'est JAMAIS modifié (pas
+// de sauvegarde/restauration à rater), et dist/ n'est jamais
+// reconstruit en cours de suite.
+// Pourquoi pas `vite build --outDir` dans le projet : le plugin
+// knuit-sw-version de vite.config.ts lit en dur dist/sw.js et
+// dist/.vite/manifest.json — un build vers un autre outDir échoue en
+// closeBundle (PLUGIN_ERROR, vérifié le 2026-11-17). La copie /tmp
+// contourne cela proprement : le plugin y lit ses propres dist/sw.js
+// et dist/.vite/manifest.json.
+// L'appelant doit appeler `cleanup` (try/finally) : ferme le serveur
+// et supprime la copie.
+export interface ContentVariantCopy {
+  dir: string
+  base: string
+  server: Server
+  cleanup: () => Promise<void>
+}
+
+export async function buildContentVariantCopy(options: {
+  contentPath: string // relatif, ex. 'src/urgence/content.json'
+  mutate: (content: Record<string, unknown>) => Record<string, unknown>
+  port: number
+}): Promise<ContentVariantCopy> {
+  const dir = path.join(
+    '/tmp',
+    `knuit-variant-${process.pid}-${options.port}`,
+  )
+  await cp(REPO_ROOT, dir, {
+    recursive: true,
+    filter: (src) =>
+      !['node_modules', 'dist', 'test-results'].includes(path.basename(src)),
+  })
+  await symlink(
+    path.join(REPO_ROOT, 'node_modules'),
+    path.join(dir, 'node_modules'),
+    'dir',
+  )
+  const copyContentPath = path.join(dir, options.contentPath)
+  const real = JSON.parse(await readFile(copyContentPath, 'utf8')) as Record<
+    string,
+    unknown
+  >
+  await writeFile(copyContentPath, JSON.stringify(options.mutate(real)))
+  // Build de la copie (vite seul — tsc n'est pas nécessaire : la
+  // variante a la même forme que l'original, les types ne changent pas).
+  await new Promise<void>((resolve, reject) => {
+    execFile(
+      path.join(dir, 'node_modules', '.bin', 'vite'),
+      ['build'],
+      { cwd: dir, timeout: 120000 },
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(
+            new Error(
+              `vite build de la variante a échoué : ${stderr || stdout || error.message}`,
+            ),
+          )
+          return
+        }
+        resolve()
+      },
+    )
+  })
+  const distStat = await lstat(path.join(dir, 'dist', 'index.html'))
+  if (!distStat.isFile()) {
+    throw new Error('variante : dist/index.html absent après le build')
+  }
+  const server = await startStaticServer(path.join(dir, 'dist'), options.port)
+  await waitFor(`http://127.0.0.1:${options.port}/`)
+  return {
+    dir,
+    base: `http://127.0.0.1:${options.port}`,
+    server,
+    cleanup: async () => {
+      await closeServer(server)
+      await rm(dir, { recursive: true, force: true })
+    },
+  }
 }

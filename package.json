@@ -20,7 +20,7 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "dev": "vite",
-    "lint": "tsc -b --force && eslint . --max-warnings 0",
+    "lint": "tsc -b --force && eslint . --max-warnings 0 && node scripts/check-content-status.mjs",
     "preview": "vite preview",
     "test:e2e": "npm run build && playwright test"
   },

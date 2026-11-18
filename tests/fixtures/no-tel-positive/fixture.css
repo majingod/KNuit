@@ -1,0 +1,29 @@
+/* Contrôle positif 1.2a : occurrences légitimes de nombres — le
+   test no-tel doit passer malgré elles. Ne jamais ajouter de
+   numéro d'urgence réel dans ce fichier. */
+.col-15 {
+  width: 15%;
+  opacity: 0.15;
+  color: #144;
+}
+
+/* Correction 1.2a (Option 1) : cas où la regex échouerait sans le
+   lookbehind et sans la liste réduite — le test doit passer
+   malgré eux. Les deux premiers testent le lookbehind (hex
+   valides) ; les quatre suivants testent la liste réduite sur
+   dist/. (Ne jamais écrire de numéro d'urgence en clair dans ce
+   fichier, même en commentaire : le scan lit tout le fichier.) */
+.hex-numbers {
+  color: #911;
+  background-color: #112;
+}
+.rgba-hsl {
+  color: rgba(255, 144, 0, 1);
+  background-color: hsl(144, 50%, 50%);
+}
+.decimal {
+  opacity: 0.144;
+}
+.shorthand {
+  margin: 144 144;
+}

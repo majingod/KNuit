@@ -203,6 +203,14 @@ l'utilisateur contacte lui-même les services d'urgence de son
 pays avec son propre téléphone. Limite honnête : une construction
 dynamique (`'tel:' + x`) échappe à l'ESLint statique et au grep —
 résidu assumé (voir `task-1.2-scope.md`), pas à prétendre résolu.
+Restauration (règle « hash > grep », établie depuis 0.9) : après
+toute modification temporaire, vérifier le hash de retour du
+fichier — un grep ne suffit pas (une indentation fausse avait
+passé le grep en 2026-11-17).
+Commentaires (pratique établie) : aucun commentaire n'affirme un
+comportement non vérifié — soit vérifié, soit supprimé. Un
+commentaire faux est plus dangereux qu'un commentaire absent,
+parce qu'il est cru.
 
 ### Contenu neutre et engagements
 

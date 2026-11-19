@@ -5,7 +5,7 @@
 | **Titre** | Périmètre MVP v1.0 — Kink de Nuit — Option A validée |
 | **Version** | v1.0 + amendement v1.1 du 2026-11-17 |
 | **Date** | 2026-11-16, amendement v1.1 le 2026-11-17 |
-| **Statut** | GELÉ (Partie A — texte validé) — Validé définitivement par Master le 2026-11-16, amendement v1.1 validé le 2026-11-17 ; Section 9 : Validée par Master le 2026-11-19 |
+| **Statut** | Version 1.0 (Partie A — texte validé) — Validé définitivement par Master le 2026-11-16, amendement v1.1 validé le 2026-11-17 ; Section 9 : Validée par Master le 2026-11-19 |
 | **Source** | `workspace/user/files/02___Document_01__P_rim_tre_MVP_2_by71.docx` — « Périmètre MVP v1.0 — Option A validée », amendement v1.1 appliqué le 2026-11-17 après critiques Claude + DeepSeek et validation par Master |
 | **Sources du texte validé** | Vision produit V4 + liste validée Option A + résultat DeepSeek Tâche 1.1 + critiques Claude (16 points) et DeepSeek (13 points), tri fusionné validé |
 
@@ -39,7 +39,7 @@
 - Recherche simple.
 - Sélecteur de niveau débutant / avancé, jamais bloquant.
 - Inventaire personnel Oui / Curieux / Peut-être / Non, avec date de validité.
-- Tous les contenus sont marqués « non validés » tant que la relecture experte n'a pas eu lieu.
+- Tous les contenus sont marqués « non validés par un expert » tant que la validation experte pré-commercialisation n'a pas eu lieu. [Décision Master 2026-11-19 — revue du dossier (amendement n° 9) : validation experte reportée à avant commercialisation.]
 
 ### Je prépare une scène
 
@@ -76,7 +76,7 @@
 - Réponses « Non » sans trace visible.
 - Interface discrète et accessible, avec critères vérifiables : HTML sémantique, focus, clavier, contraste, cibles tactiles, zoom, prefers-reduced-motion, test lecteur d'écran. Preact ne garantit pas l'accessibilité à lui seul.
 - Zéro image explicite.
-- Contenus médical, psychologique, juridique et de sécurité à valider par des experts humains avant publication.
+- Contenus médical, psychologique, juridique et de sécurité à valider par des experts humains avant commercialisation ou diffusion publique (validation experte unique et globale). [Décision Master 2026-11-19 — revue du dossier (amendement n° 9).]
 
 ## 4. PEUT ATTENDRE V1.1
 
@@ -115,9 +115,9 @@ Domaines : médical, sécurité, juridique, psy, éducatif.
 
 ---
 
-# PARTIE B — Ajout Copilot (à valider par Master)
+# PARTIE B — Ajout Copilot (validée par Master le 2026-11-19)
 
-> ✅ **Section 9 VALIDÉE PAR MASTER le 2026-11-19** : le contenu exact de la section 9 n'apparaissait pas dans le résumé de l'échange Copilot ; cette rédaction s'appuie sur les principes proposés pour gel du dossier et a été validée par Master telle que rédigée. Elle fait désormais partie du texte gelé.
+> ✅ **Section 9 VALIDÉE PAR MASTER le 2026-11-19** : le contenu exact de la section 9 n'apparaissait pas dans le résumé de l'échange Copilot ; cette rédaction s'appuie sur les principes du dossier et a été validée par Master telle que rédigée. Elle fait désormais partie du texte validé.
 
 [Correction de cohérence 2026-11-19 — amendement n° 3 : « principes gelés » remplacé par « principes proposés pour gel » — les docs 05/06/A5 ne sont pas gelés.]
 
@@ -169,9 +169,9 @@ La séparation ci-dessus ne modifie pas le périmètre des sections 1 à 8 : ell
 ## Note de transcription
 
 - Le .docx source s'intitule « DOCUMENT 01 » et indique en en-tête interne le chemin `workspace/kink-de-nuit/docs/01-perimetre-mvp-option-a.md`. Il est classé dans la nouvelle numérotation comme document **02 — Périmètre MVP** (consolidation Copilot du 2026-11-18) ; le présent fichier est donc `docs/02-perimetre-mvp.md`. Aucun contenu n'a été modifié pour tenir compte de cet écart de numérotation.
-- La section 8 du .docx renvoie à « 03-registre-validation.md » ; ce renvoi est reproduit tel quel. [Corrigé par l'amendement n° 3 le 2026-11-19.]
-- La Partie A ci-dessus est la transcription fidèle des sections 1 à 8 du .docx. La Partie B (section 9) est un ajout rédigé à partir des principes proposés pour gel des docs 05/06/A5 ; elle n'a pas le statut GELÉ tant que Master ne l'a pas validée. [Correction de cohérence 2026-11-19 — amendement n° 3 : « principes gelés » remplacé par « principes proposés pour gel ».]
+- La section 8 du .docx renvoie à « 03-registre-validation.md » ; ce renvoi a été mis à jour (03 → 04) par l'amendement n° 3. [Corrigé par l'amendement n° 3 le 2026-11-19.]
+- La Partie A ci-dessus est la transcription fidèle des sections 1 à 8 du .docx. La Partie B (section 9) est un ajout rédigé à partir des principes des docs 05/06/A5 ; validée par Master le 2026-11-19 (revue du dossier). [Correction de cohérence 2026-11-19 — amendement n° 3 : « principes gelés » remplacé par « principes proposés pour gel ».]
 
 ---
 
-*Fin du Périmètre MVP v1.0 — Option A validée — v1.0 + amendement v1.1 du 2026-11-17 — Statut : GELÉ (Partie A) ; Section 9 : Validée par Master le 2026-11-19 (Partie B).*
+*Fin du Périmètre MVP v1.0 — Option A validée — v1.0 + amendement v1.1 du 2026-11-17 — Statut : Version 1.0 ; Partie A validée définitivement par Master le 2026-11-16, amendement v1.1 validé le 2026-11-17 ; Section 9 validée par Master le 2026-11-19.*

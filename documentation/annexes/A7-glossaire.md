@@ -5,7 +5,7 @@
 | **Projet** | KNuit — application Kink de Nuit |
 | **Dépôt** | github.com/majingod/KNuit (dépôt privé) |
 | **Annexe** | A7 — Glossaire |
-| **Statut** | Document vivant / de référence — mis à jour par amendement, jamais gelé |
+| **Statut** | Document vivant / de référence — mis à jour par amendement |
 | **Décideur** | Master |
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : statut précisé — document vivant / de référence, mis à jour par amendement, jamais gelé.]
@@ -17,13 +17,16 @@ Définitions des termes utilisés dans tout le dossier documentaire KNuit. En ca
 ## Rôles et gouvernance
 
 ### Master
-Personne humaine, **décideur unique** du projet KNuit. Seul Master tranche, valide, gèle et autorise (notamment tout push avec « Pousse »). Aucune IA ne décide à sa place.
+Personne humaine, **décideur unique** du projet KNuit. Seul Master tranche, valide et autorise (notamment tout push avec « Pousse »). Aucune IA ne décide à sa place.
+
+### Rex
+IA utilisée par Master via son téléphone.
 
 ### Muse (chef de projet)
 IA chef de projet du dossier KNuit. Rôle : **proposer, recommander, synthétiser, vérifier, vulgariser**. Muse **ne tranche jamais** : toute décision est remontée à Master avec des options en langage simple.
 
 ### Orchestrateur
-Rôle de coordination du travail des IA : répartit les tâches entre les rôles A et B, suit les cycles de révision, fait remonter les désaccords à l'Arbiter puis à Master.
+Rôle de coordination du travail des IA : répartit les tâches entre les rôles A et B, suit les cycles de révision, fait remonter les désaccords à l'Arbiter puis à Master. En V1, l'Orchestrateur est Muse.
 
 ### Rôle A (Qwen2.5-Coder 7B)
 Modèle local (Qwen2.5-Coder 7B) affecté au **Rôle A** : production de code et de contenu technique. Il est **créateur** sur ses livrables et **critique** des livrables du Rôle B — jamais des siens.
@@ -38,23 +41,29 @@ Rôle d'arbitrage entre les Rôles A et B en cas de désaccord. L'Arbiter **n'es
 Méthode de relecture imposée : **A relit B, B relit A**. Chaque livrable est critiqué par le rôle qui ne l'a pas créé. Voir aussi « Créateur ≠ critique ».
 
 ### Créateur ≠ critique
-Règle gelée : **celui qui crée un livrable ne peut pas être celui qui le critique ni celui qui l'arbitre**. A relit B, B relit A, l'Arbiter n'est jamais un auteur.
+Règle : **celui qui crée un livrable ne peut pas être celui qui le critique ni celui qui l'arbitre**. A relit B, B relit A, l'Arbiter n'est jamais un auteur.
 
 ### Validation expert
 Validation par un **expert humain** (en plus de Master), selon le format du document 04 : 3 niveaux de lecture (30 s / 5 min / 20 min). Obligatoire pour les contenus sensibles : sécurité, contenu de crise, médical, juridique. Gabarit : `../templates/T3-template-validation-expert.md`.
+
+### Validation pré-commercialisation
+Validation experte unique et globale, avant toute commercialisation ou diffusion publique (amendement n° 9). Pendant le développement, aucune validation experte n'est demandée au fur et à mesure.
 
 ---
 
 ## Règles et notions de référence
 
 ### Source de vérité
-Référence qui fait foi en cas de doute ou de conflit. Ordre gelé : **1. Décision Master · 2. Validation expert · 3. Documents validés · 4. Preuves vérifiables · 5. Recommandations IA, en dernier.**
+Référence qui fait foi en cas de doute ou de conflit. Ordre en vigueur : **1. Décision Master · 2. Validation experte (avant commercialisation) · 3. Documents validés · 4. Preuves vérifiables · 5. Recommandations IA, en dernier.**
 
 ### Preuve vérifiable
 Élément concret et contrôlable qui établit qu'un travail a bien été fait : résultat de test, hash, log de build, capture, sortie d'exécution. Une affirmation sans preuve n'est pas une preuve. Toute livraison s'accompagne de ses preuves (voir gabarit T2).
 
 ### Gel
-État d'un document validé et figé : on ne le modifie plus sans **décision Master** et sans **entrée au journal des amendements** (A6). Statuts : **GELÉ** (01-03), **BROUILLON PRÉPARÉ** (04), **PRÊT POUR GEL** (05-06). [Correction de cohérence 2026-11-19 — amendement n° 3 : statuts corrigés — GELÉ (01-03), BROUILLON PRÉPARÉ (04), PRÊT POUR GEL (05-06).]
+Gel — notion abandonnée le 2026-11-19 (amendement n° 8) : aucun document n'est gelé. Voir « Document vivant ».
+
+### Document vivant
+Document modifiable à tout moment par décision de Master, tracée au journal A6.
 
 ---
 
@@ -92,7 +101,7 @@ Objectif final du produit : mode à deux partenaires, après la V1 solo et les m
 ## Technique
 
 ### LangGraph
-Framework d'orchestration d'agents IA (graphes d'étapes) utilisé pour coordonner les rôles A, B et l'Arbiter dans le projet KNuit — préféré à CrewAI, à installer après le gel ; en V1, orchestration minimale, script Python 200-300 lignes si besoin. [Correction de cohérence 2026-11-19 — amendement n° 3 : entrée LangGraph précisée — préféré à CrewAI, à installer après le gel, orchestration minimale en V1.]
+Framework d'orchestration d'agents IA (graphes d'étapes) utilisé pour coordonner les rôles A, B et l'Arbiter dans le projet KNuit — à installer après validation des documents, seulement sur décision de Master ; en V1, orchestration minimale, script Python 200-300 lignes si besoin. [Correction de cohérence 2026-11-19 — amendement n° 3 : entrée LangGraph précisée — à installer après validation des documents, orchestration minimale en V1.]
 
 ### Ollama
 Outil local qui fait tourner les modèles IA (Qwen2.5-Coder 7B, DeepSeek-R1 8B) **sur la machine de l'utilisateur**, sans envoi de données vers un service externe.
@@ -103,8 +112,8 @@ Interface web locale pour interagir avec les modèles Ollama, accessible uniquem
 ### Tailscale
 Réseau privé virtuel (VPN maillé) permettant un accès sécurisé aux services locaux (ex. OpenWebUI) sans exposition publique sur Internet. Aucune URL publique en V1.
 
-### PostgreSQL + pgvector
-Base de données locale PostgreSQL, avec l'extension **pgvector** pour la recherche vectorielle (mémoire / RAG locale). Les données restent en local.
+### PostgreSQL
+Base de données locale PostgreSQL, mémoire documentaire du projet (documentation, décisions, validations, historique — sans données réelles). La recherche vectorielle (RAG) n'est pas retenue en V1. Les données restent en local.
 
 ### PWA
 *Progressive Web App* : application web installable, utilisable hors ligne — format envisagé pour KNuit en local-first.

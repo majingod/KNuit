@@ -5,7 +5,7 @@
 | **Titre** | Architecture de sécurité v1.0 — Kink de Nuit — Option A validée |
 | **Version** | v1.0 + amendement v1.1 du 2026-11-17 |
 | **Date** | 2026-11-16, amendement v1.1 le 2026-11-17 |
-| **Statut** | GELÉ (Partie A — texte validé) — Validée définitivement par Master le 2026-11-16, amendement v1.1 validé le 2026-11-17 ; Sections 10-12 : Validées par Master le 2026-11-19 |
+| **Statut** | Version 1.0 (Partie A — texte validé) — Validée définitivement par Master le 2026-11-16, amendement v1.1 validé le 2026-11-17 ; Sections 10-12 : Validées par Master le 2026-11-19 |
 | **Source** | `workspace/user/files/03___Document_02__Architecture_de_s_curit__3_qbyk.docx` — Vision produit V4 + Option A validée + résultat DeepSeek Tâche 2.1 + critiques Claude (16 points) et DeepSeek (13 points), tri fusionné validé |
 | **Projet** | KNuit — application Kink de Nuit |
 | **Dépôt** | github.com/majingod/KNuit (privé) |
@@ -27,7 +27,7 @@ Les sections 1 à 9 ci-dessous sont la transcription fidèle du document validé
 - Option A validée : un seul coffre local chiffré, protégé par mot de passe maître.
 - Minimisation : ne stocker que le nécessaire, chiffrer les données personnelles, réduire l'exposition.
 - Périmètre V1 strict : PIN de contrainte, clé de récupération, Mode Duo et paiement sont reportés en V1.1/V2 et ne sont pas inclus. Cloudflare Pages et nom public gelés jusqu'à validation écrite.
-- Noyau coffre séparé de l'interface : TypeScript pur, seule dépendance d'exécution idb, WebCrypto natif. Seule partie soumise à l'audit expert. Interface : Preact + TypeScript + CSS simple, pas de Tailwind en v1, Vite, PWA : service worker écrit à la main, sans Workbox. [Correction de cohérence 2026-11-19 — amendement n° 3 : Workbox retiré ; service worker écrit à la main, sans Workbox.]
+- Noyau coffre séparé de l'interface : TypeScript pur, seule dépendance d'exécution idb, WebCrypto natif. Seule partie soumise à audit expert avant commercialisation. [Décision Master 2026-11-19 — revue du dossier (amendement n° 9) : validation experte reportée à avant commercialisation.] Interface : Preact + TypeScript + CSS simple, pas de Tailwind en v1, Vite, PWA : service worker écrit à la main, sans Workbox. [Correction de cohérence 2026-11-19 — amendement n° 3 : Workbox retiré ; service worker écrit à la main, sans Workbox.]
 
 ## 2. Ce qui est chiffré, et ce qui ne l'est pas
 
@@ -101,7 +101,7 @@ Les sections 1 à 9 ci-dessous sont la transcription fidèle du document validé
 
 ## 9. Validation requise
 
-- Relecture par un humain expert en sécurité et en cryptographie.
+- Relecture par un humain expert en sécurité et en cryptographie, avant commercialisation. [Décision Master 2026-11-19 — revue du dossier (amendement n° 9).]
 - Tests dédiés : chiffrement, dérivation de clé, verrouillage, Quick Exit, Mode Urgence, sauvegarde chiffrée, import, perte de mot de passe, comportement hors-ligne, compatibilité navigateurs, tests Android réel.
 - Inscription des validations dans le registre de validation.
 - Sans cette relecture et ces tests, l'architecture ne doit pas être présentée comme sécurisée.
@@ -111,9 +111,9 @@ Les sections 1 à 9 ci-dessous sont la transcription fidèle du document validé
 
 # PARTIE B — Ajouts Copilot (consolidation du 2026-11-18)
 
-> ✅ **Sections 10 à 12 VALIDÉES PAR MASTER le 2026-11-19** : sections ajoutées lors de la consolidation du 2026-11-18, rédigées d'après les principes proposés pour gel dans le dossier ; validées par Master telles que rédigées, elles font désormais partie du texte gelé.
+> ✅ **Sections 10 à 12 VALIDÉES PAR MASTER le 2026-11-19** : sections ajoutées lors de la consolidation du 2026-11-18, rédigées d'après les principes du dossier ; validées par Master telles que rédigées, elles font désormais partie du texte validé.
 
-Les sections 10, 11 et 12 ci-dessous ne modifient rien au texte validé de la Partie A. Elles appliquent à l'architecture de sécurité du produit les principes proposés pour gel dans la Charte de l'Équipe IA (doc 05), l'Architecture de l'Équipe IA (doc 06) et l'Annexe A5. Elles n'entrent en vigueur qu'après validation explicite de Master.
+Les sections 10, 11 et 12 ci-dessous ne modifient rien au texte validé de la Partie A. Elles appliquent à l'architecture de sécurité du produit les principes de la Charte de l'Équipe IA (doc 05), l'Architecture de l'Équipe IA (doc 06) et l'Annexe A5. Validées par Master le 2026-11-19 (revue du dossier).
 
 ## 10. Séparation des données (produit / équipe IA)
 
@@ -187,7 +187,7 @@ Les clés de chiffrement du coffre local relèvent de l'application elle-même, 
 
 ### 11.5 Accès distant
 
-- Accès distant uniquement via Tailscale, obligatoire pour l'accès distant (à installer après le gel des documents).
+- Accès distant uniquement via Tailscale, obligatoire pour l'accès distant (à installer après validation des documents par Master).
 - Aucun service de l'équipe IA n'est exposé sur l'internet public en V1. Aucun port n'est ouvert sur la box / le routeur pour l'équipe IA en V1.
 - OpenWebUI doit être accessible via l'IP Tailscale. Il ne doit pas être limité à `127.0.0.1`, sinon la tablette est bloquée.
 - Vérifier la visibilité des ports avant chaque usage de Codespaces : ports privés uniquement, authentification GitHub requise (voir Partie A, section 6).
@@ -240,4 +240,4 @@ L'écart Workbox (sections 1 et 8 de la Partie A) a été tranché par l'amendem
 
 ---
 
-*Fin de l'Architecture de sécurité v1.0 — Kink de Nuit — Option A validée, amendement v1.1 du 2026-11-17 — Statut : GELÉ (Partie A) ; Partie B à valider par Master.*
+*Fin de l'Architecture de sécurité v1.0 — Kink de Nuit — Option A validée, amendement v1.1 du 2026-11-17 — Statut : Version 1.0 ; Partie A validée définitivement par Master le 2026-11-16, amendement v1.1 validé le 2026-11-17 ; Partie B validée par Master le 2026-11-19.*

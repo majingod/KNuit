@@ -63,6 +63,6 @@
 
 - **Créateur ≠ critique** : A relit B, B relit A, l'Arbiter n'est jamais un auteur.
 - **Max 3 cycles** puis escalade vers Master.
-- **Données interdites partout** : aucune donnée réelle dans GitHub, Codespaces ou IA externes.
+- **Données interdites partout** : aucune donnée réelle dans GitHub, Codespaces, PostgreSQL de l'équipe IA, Ollama, modèles externes.
 - **Secrets jamais** dans Git, docs ou prompts.
 - **Aucun push sans « Pousse »** de Master.

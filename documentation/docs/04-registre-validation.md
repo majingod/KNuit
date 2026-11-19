@@ -5,13 +5,13 @@
 | **Titre** | Registre de validation — Kink de Nuit |
 | **Date de préparation** | 2026-11-16 |
 | **Mise à jour** | 2026-11-17 |
-| **Statut** | **BROUILLON PRÉPARÉ** (pas gelé) |
+| **Statut** | **BROUILLON PRÉPARÉ (2026-11-17) — liste de validation pré-commercialisation** |
 | **Projet** | KNuit — application Kink de Nuit |
 | **Dépôt** | github.com/majingod/KNuit (privé) |
 
-> **Statut du fichier : Brouillon préparé. Amendement v1.1 appliqué aux documents 01 et 02 le 2026-11-17 après validation de Master ; la validation humaine par un expert reste à faire pour chaque élément.**
+> **Statut du fichier : Brouillon préparé. Amendement v1.1 appliqué aux documents 01 et 02 le 2026-11-17 après validation de Master ; la validation humaine par un expert est prévue avant commercialisation, pour chaque élément (amendement n° 9).**
 
-> **Expert humain désigné le 2026-11-19 (décision D-17) : John Smith, expert en pratique sexuelle** — domaine : pratique sexuelle / contenu éducatif. Les autres domaines restent « À nommer » dans les tableaux ci-dessous (sécurité / cryptographie, juridique, médical, psy / crise) : ils attendent un expert de leur domaine. Les tableaux historiques ne sont pas réécrits ; cette désignation s'applique à partir du 2026-11-19 pour les éléments de son domaine.
+> **Expert humain désigné le 2026-11-19 (décision D-17) : John Smith, expert en pratique sexuelle** — domaine : pratique sexuelle / contenu éducatif, désigné pour valider ce domaine avant commercialisation. Aucune validation au fur et à mesure pendant le développement. Les autres domaines restent « À nommer » dans les tableaux ci-dessous (sécurité / cryptographie, juridique, médical, psy / crise) : ils attendent un expert de leur domaine. Les tableaux historiques ne sont pas réécrits ; cette désignation s'applique à partir du 2026-11-19 pour les éléments de son domaine.
 
 > **Note de provenance :** le fichier .docx source porte l'ancienne numérotation (« Document 03 », chemin `docs/03-registre-validation.md`). Dans la numérotation consolidée du 2026-11-18, ce registre devient le **document 04**. Son contenu est transcrit fidèlement ci-dessous (Partie A) ; les sections 5 à 7 sont des ajouts Copilot (Partie B).
 
@@ -27,11 +27,11 @@ Ce fichier ne modifie pas les documents v1.0 validés (01-perimetre-mvp-option-a
 
 Il prépare seulement le registre demandé : toute fonction touchant à la sécurité, au médical, au juridique, au psychologique ou à la crise entre au registre au statut « À valider » jusqu'à relecture humaine.
 
-**Règle : rien n'est marqué « prêt » tant que le statut n'est pas « Validé » par un humain expert. La critique par une 2e IA ne remplace jamais la validation humaine.**
+**Règle : rien n'est marqué « prêt » tant que le statut n'est pas « Validé ». La validation experte est une étape unique avant commercialisation (amendement n° 9) ; pendant le développement, les éléments sont « En cours » ou « À valider avant commercialisation ». La critique par une 2e IA ne remplace jamais la validation humaine.**
 
 **Statuts possibles : À valider / Validé / À corriger / Refusé.**
 
-**Critique IA : créateur ≠ critique — paires finales (décision de Master le 2026-11-19, D-18) : Rôle A (Qwen2.5-Coder 7B) ↔ Rôle B (DeepSeek-R1 8B) — A relit B et B relit A ; Arbiter = Muse ou modèle tiers indépendant, jamais un auteur. Ancienne mention du brouillon du 2026-11-17 : « Muse crée → DeepSeek critique ; DeepSeek crée → Claude critique » — conservée dans les tableaux historiques ci-dessous, qui ne sont pas réécrits.**
+**Critique IA : créateur ≠ critique — paires finales (décision de Master le 2026-11-19, D-18) : Rôle A (Qwen2.5-Coder 7B) ↔ Rôle B (DeepSeek-R1 8B) — A relit B et B relit A ; Arbiter = Muse ou modèle tiers indépendant, jamais un auteur. L'ancienne mention du brouillon du 2026-11-17 (« Muse crée → DeepSeek critique ; DeepSeek crée → Claude critique ») est remplacée : le système de critique croisée validé le 2026-11-16 prévoyait Claude comme critique via copier-coller avec des données fictives ; la décision D-18 adopte des paires locales Qwen ↔ DeepSeek pour l'équipe permanente. La critique externe par copier-coller avec des données fictives reste possible ponctuellement. Muse, chef de projet, ne produit pas les livrables de routine de l'équipe ; ses livrables antérieurs (charte, dossier expert, consolidation) restent valides. L'ancienne mention est citée ici à titre d'historique ; les tableaux ci-dessous conservent l'état du brouillon du 2026-11-17.**
 
 ---
 
@@ -98,13 +98,13 @@ Après le tri : les corrections acceptées ont été appliquées à l'amendement
 
 # PARTIE B — Ajouts Copilot (consolidation du 2026-11-18)
 
-> ✅ **Sections 5 à 7 VALIDÉES PAR MASTER le 2026-11-19** : sections ajoutées lors de la consolidation du 2026-11-18, rédigées d'après les principes proposés pour gel du dossier ; validées par Master telles que rédigées, elles font désormais partie du registre.
+> ✅ **Sections 5 à 7 VALIDÉES PAR MASTER le 2026-11-19** : sections ajoutées lors de la consolidation du 2026-11-18, rédigées d'après les principes du dossier ; validées par Master telles que rédigées, elles font désormais partie du registre.
 
 [Correction de cohérence 2026-11-19 — amendement n° 3 : « principes gelés » remplacé par « principes proposés pour gel » — les docs 05/06/A5 ne sont pas gelés.]
 
 ## 5. Définition de prêt
 
-Un élément du registre passe du statut « À valider » au statut « Validé » uniquement quand **toutes** les conditions ci-dessous sont remplies. Il suffit d'une seule condition manquante pour qu'il ne soit pas prêt — conformément à la règle de l'introduction : rien n'est marqué « prêt » tant que le statut n'est pas « Validé » par un humain expert.
+Un élément du registre passe du statut « À valider » au statut « Validé » uniquement quand **toutes** les conditions ci-dessous sont remplies. Il suffit d'une seule condition manquante pour qu'il ne soit pas prêt — conformément à la règle de l'introduction : rien n'est marqué « prêt » tant que le statut n'est pas « Validé » (validation experte pré-commercialisation + Master).
 
 ### 5.1 Conditions générales
 
@@ -134,8 +134,8 @@ Hiérarchie des preuves : **Code → Tests → Mesures → Décision IA**. Une d
 
 ### 5.3 Validation humaine requise
 
-- **Validation par un expert humain** (sécurité, droit, santé, selon le domaine de l'élément) **et par Master** : la critique par une 2e IA ne remplace jamais la validation humaine.
-- L'expert humain est nommé dans le registre (colonne « Expert humain ») ; tant qu'il est « À nommer », l'élément ne peut pas passer au statut « Validé ».
+- **Validation par un expert humain** (sécurité, droit, santé, selon le domaine de l'élément) **et par Master**, avant commercialisation : la critique par une 2e IA ne remplace jamais la validation humaine.
+- L'expert humain est nommé dans le registre (colonne « Expert humain ») ; aucun élément ne peut passer au statut « Validé » avant la validation experte pré-commercialisation ; pendant le développement, les éléments sont « En cours » ou « À valider avant commercialisation ».
 - La validation est consignée avec sa date ; une validation sans date est une validation perdue.
 - Si la validation aboutit à « À corriger » ou « Refusé », le motif est consigné et l'élément retourne au circuit de convergence.
 
@@ -193,7 +193,7 @@ Le chiffrement du coffre local de l'application relève de l'application elle-m�
 
 ### 6.5 Lien avec le registre
 
-Tout incident d'exposition d'un secret est consigné dans ce registre comme un élément à valider, avec son domaine (Sécurité), son expert humain (À nommer tant que l'expert sécurité n'est pas désigné), sa date et son statut — « À valider » jusqu'à relecture humaine, jamais « Validé » sur la seule foi d'une vérification par IA.
+Tout incident d'exposition d'un secret est consigné dans ce registre comme un élément à valider, avec son domaine (Sécurité), son expert humain (À nommer tant que l'expert sécurité n'est pas désigné), sa date et son statut — « À valider avant commercialisation » jusqu'à relecture humaine, jamais « Validé » sur la seule foi d'une vérification par IA.
 
 ---
 
@@ -208,7 +208,7 @@ Ce qui fait la continuité du projet, ce n'est pas un modèle : c'est **GitHub e
 ### 7.2 Sources de continuité
 
 - **GitHub (dépôt privé github.com/majingod/KNuit)** : le code, son historique complet, ses branches. L'historique Git est la mémoire factuelle du code : chaque changement est daté, attribué et diffusable.
-- **Documents de référence** : la charte (05) et l'architecture de l'équipe IA (06), proposées pour gel, l'architecture technique (A5) et les décisions consignées de Master. Un document est « validé » quand Master l'a approuvé explicitement. Les brouillons ne font pas foi.
+- **Documents de référence** : la charte (05) et l'architecture de l'équipe IA (06), en version 1.0, en attente de validation par Master, l'architecture technique (A5) et les décisions consignées de Master. Un document est « validé » quand Master l'a approuvé explicitement. Les brouillons ne font pas foi.
 - **Sauvegardes quotidiennes** : rétention 30 jours. Une sauvegarde non testée est une sauvegarde qui n'existe pas : la procédure de restauration est testée au moins à chaque changement de phase, et le test réussi est consigné avec sa date et son résultat.
 - **Mémoire du projet** : l'historique des décisions et de leur contexte (décisions de Master avec leur date, options écartées, preuves associées, incidents et escalades, points en attente).
 
@@ -247,9 +247,9 @@ Le présent registre fait partie des sources de continuité du projet : il est s
 
 ---
 
-## Écarts à trancher par Master
+## Écarts — état au 2026-11-19
 
-| # | Écart | Ce que dit le .docx (Partie A) | Ce que dit l'équipe finale gelée | Décision attendue |
+| # | Écart | Ce que dit le .docx (Partie A) | Ce que dit l'équipe finale | Décision attendue |
 |---|---|---|---|---|
 | 1 | Paires de critique IA | « Critique IA : créateur ≠ critique (Muse crée → DeepSeek critique ; DeepSeek crée → Claude critique) » | Rôle A = Qwen2.5-Coder 7B, Rôle B = DeepSeek-R1 8B, Arbiter = Muse ou modèle tiers indépendant (jamais un auteur) ; A relit B, B relit A | ✅ Décision prise par Master le 2026-11-19 (D-18, amendement n° 6) : paires finales adoptées — Rôle A ↔ Rôle B, Arbiter Muse ou tiers indépendant. Mention « Critique IA » mise à jour en tête du registre ; les tableaux de la Partie A ne sont pas réécrits (historique du 2026-11-17 conservé). |
 

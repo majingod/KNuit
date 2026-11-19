@@ -25,7 +25,7 @@
 ## Contexte
 
 <!-- Pourquoi cette décision est nécessaire, maintenant.
-Rappel des faits vérifiés et des contraintes gelées concernées.
+Rappel des faits vérifiés et des contraintes en vigueur concernées.
 Lien vers les documents / preuves : -->
 
 -

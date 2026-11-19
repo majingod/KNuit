@@ -5,8 +5,8 @@
 | **Titre** | Architecture de l'Équipe IA KNuit |
 | **Version** | 1.0 |
 | **Date** | 2026-11-18 |
-| **Statut** | PRÊT POUR GEL |
-| **Autorité** | Master (Frédéric) |
+| **Statut** | Version 1.0 (2026-11-19) — en attente de validation par Master |
+| **Autorité** | Master |
 | **Projet** | KNuit — application Kink de Nuit |
 | **Dépôt** | github.com/majingod/KNuit (privé) |
 | **Document compagnon** | `05-charte-equipe-ia.md` (règles de fonctionnement — prime en cas de conflit) |
@@ -20,7 +20,7 @@
 | Version | Date | Auteur | Changement |
 |---|---|---|---|
 | 0.1 | 2026-11-18 | Muse (brouillon) | Première ébauche complète, en attente de validation Master |
-| 1.0 | 2026-11-18 | Équipe IA KNuit | Version soumise au gel — PRÊT POUR GEL |
+| 1.0 | 2026-11-18 | Équipe IA KNuit | Version 1.0 (2026-11-19) — en attente de validation par Master |
 
 ---
 
@@ -86,7 +86,7 @@ Chaque livrable porte son auteur, son critique, sa recommandation d'arbitrage le
 ```
                           ┌─────────────┐
                           │   Master    │  Décide et tranche seul
-                          │  (Frédéric) │
+                          │             │
                           └──────┬──────┘
                                  │ instructions / validations
                           ┌──────▼──────┐
@@ -235,7 +235,7 @@ Quand un modèle externe est utilisé (par exemple comme Arbiter tiers) :
 En cas de contradiction, l'ordre suivant tranche. Il est fixe.
 
 1. **Décision explicite de Master.**
-2. **Validation requise d'un expert humain** (quand Master l'exige).
+2. **Validation experte (avant commercialisation uniquement).**
 3. **Documents validés** (charte, architecture, périmètre MVP (doc 02), décisions consignées).
 4. **Preuves vérifiables** (tests, hashes, diffs Git, builds, mesures).
 5. **Recommandations IA** — toujours en dernier.
@@ -307,7 +307,7 @@ La mémoire du projet est un aide-mémoire, pas une source de vérité autonome 
 
 | Agent | Modèle / nature | Fonction | Ne fait jamais |
 |---|---|---|---|
-| Master | Humain (Frédéric) | Décide et tranche seul | — |
+| Master | Humain | Décide et tranche seul | — |
 | Muse | Modèle (chef de projet) | Coordonne, vérifie indépendamment, synthétise, vulgarise | Trancher |
 | Orchestrateur | Agent de coordination | Répartit les tâches, gère le chargement séquentiel | Produire un livrable final, valider |
 | Rôle A | Qwen2.5-Coder 7B (local) | Produire un livrable | Critiquer son propre travail |
@@ -328,9 +328,11 @@ La mémoire du projet est un aide-mémoire, pas une source de vérité autonome 
 
 ### 8.3 Orchestrateur
 
-- Reçoit les tâches de Muse, les découpe et les confie aux Rôles A et B.
+En V1, l'Orchestrateur est Muse (voir charte, section 5.3) : il reçoit les tâches, les répartit entre les rôles A et B, fait respecter la limite de 3 cycles et escalade les désaccords vers Master. L'outil d'orchestration en V1 est un script Python minimal (voir A5 §4.4) ; LangGraph ne prendra ce rôle que sur décision de Master.
+
+- Répartit les tâches entre les Rôles A et B.
 - Gère la séquence de chargement des modèles locaux : un seul modèle en mémoire à la fois, déchargement complet avant le suivant.
-- **Outil d'orchestration en V1 : script Python minimal (voir A5 §4.4) ; LangGraph préféré à CrewAI au-delà de la V1 (décision D-14).**
+- **Outil d'orchestration en V1 : script Python minimal (200-300 lignes, estimation — voir A5 §4.4). LangGraph seulement au-delà de la V1, sur décision de Master (décision D-14).**
 - Collecte les livrables et les rapports de critique, les transmet à l'Arbiter.
 - Suit l'avancement et signale les blocages à Muse.
 - Ne produit pas de contenu final et ne valide rien.
@@ -449,7 +451,7 @@ Avant qu'un livrable de code soit présenté à Master, les preuves suivantes so
 
 Un livrable de code sans build réussi, sans type-check et sans tests passés n'est **pas prêt** (charte, section 11.2).
 
-### 10.3 Stack applicative (état vérifié du dépôt, voir A5 §2.4 — à geler par décision Master si la stack doit être figée)
+### 10.3 Stack applicative (état vérifié du dépôt, voir A5 §2.4 — la stack n'est modifiée que sur décision de Master)
 
 - **Vite 8.3.8 + Preact 11.2.0 + TypeScript 7.0.2.**
 - PWA, service worker écrit à la main, **sans Workbox**.
@@ -569,6 +571,7 @@ La sécurité opérationnelle couvre : la machine Desktop, Ollama et les modèle
 - **Aucune URL publique, aucun déploiement public en V1.** Cloudflare Pages gelé.
 - **Accès minimal.** Chaque agent n'accède qu'aux ressources nécessaires à sa tâche.
 - **Prompts externes relus.** Tout prompt adressé à un modèle externe est relu par Muse avant envoi (section 5.4).
+- **Accès distant : Tailscale obligatoire.** OpenWebUI est accessible via l'IP Tailscale, jamais limité à `127.0.0.1` (sinon la tablette est bloquée).
 - **Données fictives uniquement.** Les environnements de l'équipe IA ne contiennent que des données fictives de test, manifestement fausses et marquées comme telles.
 - **Journaux purgés.** Les journaux et caches (Ollama, PostgreSQL, Codespaces) sont purgés de toute donnée sensible avant sauvegarde et avant partage.
 - **Mises à jour validées.** Les outils et dépendances de l'environnement IA sont mis à jour sur décision de Master, jamais automatiquement sans validation.
@@ -708,7 +711,7 @@ Si Master est indisponible, l'équipe IA ne prend **aucune décision** à sa pla
 |---|---|
 | Un modèle local (A ou B) | Remplacement par un autre modèle dans le même rôle ; signalement à Master |
 | Muse | Reprise par un autre agent chef de projet, avec relecture complète de la charte et de la mémoire ; signalement à Master |
-| Orchestrateur | Muse reprend la coordination directement jusqu'à la mise en place d'un remplaçant |
+| Orchestrateur | Muse est l'Orchestrateur en V1 ; en cas d'indisponibilité de Muse, un autre agent chef de projet reprend la coordination jusqu'à son retour |
 | Machine Desktop | Restauration depuis les sauvegardes (section 15) ; vérification complète avant reprise |
 | Dépôt GitHub | Restauration depuis une copie locale et les sauvegardes ; signalement immédiat à Master |
 | Base PostgreSQL équipe IA | Restauration depuis la sauvegarde quotidienne la plus récente |
@@ -721,7 +724,7 @@ Dans tous les cas, la reprise est vérifiée (preuves, hashes, tests) avant que 
 
 ### 17.1 Principe
 
-Ce document est **proposé pour gel** en version 1.0. Une fois gelé par Master, il sera stable, faisant autorité, modifiable uniquement par la procédure ci-dessous. Le gel protège le projet contre les changements silencieux d'architecture.
+Ce document est un document vivant, en version 1.0, en attente de validation par Master. Il est modifiable à tout moment par décision de Master, tracée au journal A6. Aucun document n'est gelé (amendement n° 8).
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : « gelé en v1.0 » remplacé par « proposé pour gel » — ce document n'est pas gelé, il est soumis au gel par Master.]
 
@@ -755,4 +758,4 @@ Cette architecture est relue au minimum à chaque changement de phase du projet 
 
 ---
 
-*Fin de l'Architecture de l'Équipe IA KNuit v1.0 — PRÊT POUR GEL — 2026-11-18.*
+*Fin de l'Architecture de l'Équipe IA KNuit v1.0 — Version 1.0 (2026-11-19), en attente de validation par Master.*

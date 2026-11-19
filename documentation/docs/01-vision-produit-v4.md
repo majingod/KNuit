@@ -2,11 +2,11 @@
 
 - **Version :** 4.0
 - **Date :** 2026-11-16
-- **Statut :** GELÉ
+- **Statut :** Version 1.0 — document vivant
 - **Source :** `workspace/user/files/01___Vision_Produit_V4_1_jach.docx`
-- **Auteur :** @Fred
+- **Auteur :** Master
 
-Nov 16, 2026 · @Fred
+Nov 16, 2026 · Master
 
 Les fonctions décrites ici sont celles du produit complet ; le phasage V1 / V1.1 / V2 est fixé par le doc 02 (Périmètre MVP).
 
@@ -155,15 +155,19 @@ Le cadre juridique dépend de la juridiction, et une partie des choix reste à v
 
 L'ordre de livraison commence par ce qui protège le plus (urgence, aide) et reporte la fonction la plus difficile, le Mode Duo, après trois validations externes.
 
-[Contenu embarqué dans le .docx : feuille de route · 5 phases, 3 portes de passage]
+[Reconstruction d'après le texte validé — l'original (image embarquée dans le .docx) reste à fournir par Master. Ce tableau reprend l'ordre de livraison du doc 02 §6 et les trois validations externes de la section « Prochaines étapes ». À confirmer.]
 
-Les phases se lisent de gauche à droite, sans échelle de temps. Chaque porte est une validation à passer avant la phase suivante ; l'avis juridique est requis avant toute diffusion publique.
+| 0. Fondations | 1. Mode Urgence + « Ça s'est mal passé » | 2. Hub + inventaire | 3. Atelier + débrief | 4. Pratique solo |
+| --- | --- | --- | --- | --- |
+| Porte 1 : relecture clinique et éducative | Porte 2 : pre-mortem adversarial | Porte 3 : tests utilisateurs sous stress | Avis juridique requis avant toute diffusion publique | — |
 
-> [Note Rex 2026-11-19 : le schéma de la feuille de route (5 phases, 3 portes) était embarqué dans le .docx et n'a pas pu être lu — à compléter depuis l'original. Vérification du PDF du même document le 2026-11-19 (01___Vision_Produit_V4_0_8e08.pdf, 7 pages) : contenu identique, le schéma y apparaît aussi seulement comme texte « [embedded content: feuille de route · 5 phases, 3 portes de passage] », sans image ni détail des phases. Le point reste ouvert.]
+Les phases se lisent de gauche à droite, sans échelle de temps. Chaque porte est une validation à passer avant commercialisation ; l'avis juridique est requis avant toute diffusion publique.
+
+> [Note Rex (IA utilisée par Master via son téléphone), 2026-11-19 : le schéma de la feuille de route (5 phases, 3 portes) était embarqué dans le .docx et n'a pas pu être lu — à compléter depuis l'original. Vérification du PDF du même document le 2026-11-19 (01___Vision_Produit_V4_0_8e08.pdf, 7 pages) : contenu identique, le schéma y apparaît aussi seulement comme texte « [embedded content: feuille de route · 5 phases, 3 portes de passage] », sans image ni détail des phases. Le point reste ouvert.]
 
 ## Prochaines étapes et questions ouvertes
 
-Avant de coder les fonctions les plus sensibles, trois validations externes sont nécessaires.
+Avant toute commercialisation, trois validations externes sont nécessaires. [Décision Master 2026-11-19 — revue du dossier (amendement n° 9) : validation experte reportée à avant commercialisation.]
 
 - [ ] **Relecture clinique et éducative** des fiches et des règles du moteur de risque par des éducateurs kink-aware et des sexologues ou psychologues.
 - [ ] **Pre-mortem adversarial** : pour chaque fonction, imaginer comment un abuseur la détournerait (Mode Duo, Dynamique, journal, export), puis corriger.

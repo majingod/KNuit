@@ -1,8 +1,8 @@
 # Annexe A5 — Architecture Technique de l'Équipe IA KNuit
 
 **Version :** v1.0
-**Statut :** PRÊT POUR GEL
-**État :** Prête pour la v1, non gelée — proposée pour gel le 2026-11-18
+**Statut :** Version 1.0 (2026-11-19) — en attente de validation par Master
+**État :** Prête pour la v1 — Version 1.0, en attente de validation par Master
 **Date :** 2026-11-18
 **Décideur :** Master
 **Projet :** KNuit — application Kink de Nuit
@@ -10,12 +10,12 @@
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : « Validé pour la v1 » remplacé par « Prête pour la v1, non gelée — proposée pour gel le 2026-11-18 » (en-tête, § 11.4 et pied de document) — A5 n'est pas gelée.]
 
-> **Règle gelée — à rappeler en tête de toute lecture technique :**
+> **Règle en vigueur — à rappeler en tête de toute lecture technique :**
 > « Une IA ne gagne jamais un débat parce qu'elle argumente mieux. Les preuves priment toujours sur les opinions. »
 >
 > Master décide seul. Muse, chef de projet, propose, recommande, synthétise, vérifie et vulgarise — il ne tranche jamais. Le créateur n'est jamais le critique. Maximum 3 cycles, puis escalade vers Master.
 >
-> Sources de vérité, dans cet ordre : 1) Décision Master, 2) Validation expert humain, 3) Documents validés, 4) Preuves vérifiables, 5) Recommandations IA en dernier.
+> Sources de vérité, dans cet ordre : 1) Décision Master, 2) Validation experte (avant commercialisation), 3) Documents validés, 4) Preuves vérifiables, 5) Recommandations IA en dernier.
 
 ---
 
@@ -44,7 +44,7 @@ Hors portée :
 - le contenu fonctionnel de l'application (voir les documents 01 à 06) ;
 - les données réelles, personnelles, médicales et le contenu du coffre — **interdites partout** (voir § 8).
 
-Cette annexe est proposée pour gel le 2026-11-18. Après le gel, toute modification passe par une décision de Master, consignée dans l'annexe A2 (Registre des décisions).
+Cette annexe est en version 1.0, en attente de validation par Master. Toute modification passe par une décision de Master, consignée dans l'annexe A2 (Registre des décisions).
 
 ---
 
@@ -57,9 +57,9 @@ La machine de l'utilisateur héberge **l'équipe IA**. Elle n'héberge **pas** l
 | Élément | Valeur vérifiée |
 |---|---|
 | Processeur | Intel i7-13700F |
-| Mémoire vive | 32 Go DDR5 |
 | Carte graphique | NVIDIA GeForce RTX 4060 Ti, 8 Go VRAM |
-| Stockage libre | ~2 To libres |
+| Mémoire | 32 Go de RAM DDR5 |
+| Stockage | ~2 To libres |
 | Système d'exploitation | Windows 11 |
 | Disponibilité | Desktop allumé 24/7 |
 
@@ -80,7 +80,7 @@ Le développement de l'application KNuit se fait dans le dépôt privé GitHub (
 | Déploiement public en V1 | Non — gelé (voir A2) |
 | Cloudflare Pages | Gelé en V1 — pas de déploiement public |
 
-Règle gelée : **aucun push sans le mot « Pousse » de Master.** Aucun push automatique, aucune synchronisation implicite.
+Règle en vigueur : **aucun push sans le mot « Pousse » de Master.** Aucun push automatique, aucune synchronisation implicite.
 
 ### 2.4 Stack de l'application KNuit
 
@@ -130,7 +130,7 @@ En local, les services de l'équipe IA sont accessibles depuis la machine hôte 
 
 - **Tailscale est obligatoire pour l'accès distant.**
 - Statut à la date de rédaction (2026-11-18) : **à installer plus tard** — l'installation n'a pas encore eu lieu.
-- L'installation de Tailscale fait partie de la prochaine étape du projet, **seulement après le gel des documents** (voir A1, § 6), dans l'ordre indiqué.
+- L'installation de Tailscale fait partie de la prochaine étape du projet, **seulement après validation des documents par Master** (voir A1, § 6), dans l'ordre indiqué.
 - Une fois installé, Tailscale fournit le réseau privé par lequel la tablette et les autres appareils de l'utilisateur rejoignent les services locaux.
 
 ### 3.3 OpenWebUI — règle d'accès critique
@@ -155,18 +155,18 @@ En local, les services de l'équipe IA sont accessibles depuis la machine hôte 
 
 | Outil | Rôle | Statut au 2026-11-18 |
 |---|---|---|
-| Ollama | Exécution locale des modèles | À installer — après le gel des docs |
-| Tailscale | Réseau privé / accès distant | À installer — après le gel des docs ; obligatoire |
-| OpenWebUI | Interface d'accès aux modèles locaux | À installer — après le gel des docs ; accès via IP Tailscale (voir § 3.3) |
-| PostgreSQL + pgvector | Mémoire du projet | À installer — après le gel des docs |
-| LangGraph | Orchestration des agents IA | Préféré à CrewAI au-delà de la V1 ; à installer seulement sur décision Master |
+| Ollama | Exécution locale des modèles | À installer — après validation des docs |
+| Tailscale | Réseau privé / accès distant | À installer — après validation des docs ; obligatoire |
+| OpenWebUI | Interface d'accès aux modèles locaux | À installer — après validation des docs ; accès via IP Tailscale (voir § 3.3) |
+| PostgreSQL | Mémoire du projet | À installer — après validation des docs |
+| LangGraph | Orchestration des agents IA | Au-delà de la V1 ; à installer seulement sur décision Master |
 | GitHub | Dépôt privé, versionnement | En place — dépôt privé github.com/majingod/KNuit |
 
-**Ordre d'installation (proposé dans A1, à geler par Master) :** Ollama, puis Tailscale, puis OpenWebUI (vérifier l'écoute sur l'IP Tailscale), puis PostgreSQL, puis LangGraph — **seulement après le gel des documents.**
+**Ordre d'installation (proposé dans A1, à valider par Master) :** Ollama, puis Tailscale, puis OpenWebUI (vérifier l'écoute sur l'IP Tailscale), puis PostgreSQL, puis LangGraph — **seulement après validation des documents par Master.**
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : ordre d'installation corrigé — Ollama, puis Tailscale, puis OpenWebUI (vérifier l'écoute sur l'IP Tailscale), puis PostgreSQL, puis LangGraph ; OpenWebUI ne peut pas être vérifié avant Tailscale. « Gelé dans A1 » remplacé par « proposé dans A1, à geler par Master ».]
 
-Aucune installation n'a lieu avant le gel. Toute installation anticipée serait un écart à consigner et à faire valider par Master.
+Aucune installation n'a lieu avant validation. Toute installation anticipée serait un écart à consigner et à faire valider par Master.
 
 ### 4.2 Ollama
 
@@ -179,16 +179,16 @@ Modèles prévus (quantifiés) :
 
 Les modèles exacts, leurs quantifications et leurs versions seront consignés lors de l'installation, avec preuves (sortie de commande). Rien n'est affirmé ici au-delà de ce qui est listé ci-dessus.
 
-### 4.3 PostgreSQL + pgvector
+### 4.3 PostgreSQL
 
-- PostgreSQL + pgvector constitue la **mémoire du projet**.
+- PostgreSQL constitue la **mémoire du projet**.
 - Contenu autorisé : documentation du projet, décisions, validations, historique technique — **sans aucune donnée réelle**.
 - Contenu interdit : données réelles, données personnelles, données médicales, contenu du coffre (voir § 8).
 - PostgreSQL n'est pas une base de données de l'application en V1, et ne contient aucune donnée d'usage réel.
 
 ### 4.4 LangGraph
 
-- **LangGraph est préféré à CrewAI** pour l'orchestration des agents IA **au-delà de la V1**.
+- **LangGraph** est l'outil d'orchestration envisagé **au-delà de la V1**, sur décision de Master.
 - En V1, si une orchestration est nécessaire, elle prend la forme d'un **script Python minimal de 200 à 300 lignes** — pas de framework, pas d'une usine à agents.
 - **LangGraph n'est installé qu'après la V1, seulement sur décision Master.**
 - Décision d'architecture : commencer simple, mesurer, puis seulement complexifier si une preuve le justifie.
@@ -267,8 +267,8 @@ Muse **ne tranche jamais**. Toute phrase qui ressemblerait à une décision pris
 5. **Critique croisée (A critique B, B critique A)** — chaque rôle relit, conteste et propose des corrections sur le livrable de l'autre, avec une vision différente.
 6. **Révision (les deux rôles)** — les deux rôles intègrent ou réfutent, preuves à l'appui.
 7. **Arbitrage si désaccord** — l'Arbiter tranche sur preuves (tests, mesures, documents validés).
-8. **Validation** — validation en langage simple, 3 niveaux de lecture (voir A3), par l'expert humain + Master.
-9. **Gel** — le document ou le livrable est gelé ; toute modification ultérieure repasse par Master.
+8. **Validation** — validation en langage simple, 3 niveaux de lecture (voir A3), par Master (validation experte : avant commercialisation, voir doc 04).
+9. **Version** — le document ou le livrable est versionné ; toute modification ultérieure repasse par Master.
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : étapes 4 à 6 corrigées — production par les Rôles A et B, chacun un livrable indépendant ; critique croisée (A critique B, B critique A) ; révision par les deux rôles.]
 
@@ -296,7 +296,7 @@ Toute validation est présentée en **langage simple, en 3 niveaux de lecture** 
 
 1. **Niveau 1 — En une phrase :** ce que ça change pour Master.
 2. **Niveau 2 — En bref :** les points clés, les choix, les risques.
-3. **Niveau 3 — En détail :** le contenu technique complet, pour l'expert humain.
+3. **Niveau 3 — En détail :** le contenu technique complet, pour l'expert humain (validation pré-commercialisation).
 
 Aucune validation n'est demandée sans ces 3 niveaux.
 
@@ -308,7 +308,7 @@ Aucune validation n'est demandée sans ces 3 niveaux.
 
 ### 6.6 STOP documentation
 
-Après le gel des documents 05, 06, A5 et des gabarits, **STOP documentation** : plus aucun nouveau document de cadrage n'est produit sans décision explicite de Master. L'équipe passe à l'installation et à la construction. (A6 et A7 sont des documents vivants, jamais gelés — ils ne font pas partie de la condition de gel.)
+**STOP documentation** : plus aucun nouveau document de cadrage n'est produit sans décision explicite de Master. L'équipe passe à l'installation et à la construction. (A6 et A7 sont des documents vivants — ils ne font pas partie de cette règle.)
 
 [Correction de cohérence 2026-11-19 — amendement n° 3 : A6 et A7 retirés de la condition de STOP documentation — documents vivants / de référence, jamais gelés.]
 
@@ -318,9 +318,9 @@ Après le gel des documents 05, 06, A5 et des gabarits, **STOP documentation** :
 
 ### 7.1 Ce que la mémoire contient
 
-La mémoire technique du projet (PostgreSQL + pgvector, voir § 4.3) contient :
+La mémoire technique du projet (PostgreSQL, voir § 4.3) contient :
 
-- les documents du projet, selon leur statut (voir § 12) : le registre 04 est un BROUILLON PRÉPARÉ, pas gelé ; les documents 05 et 06 sont proposés pour gel, pas gelés ;
+- les documents du projet, selon leur statut (voir § 12) : le registre 04 est un BROUILLON PRÉPARÉ ; les documents 05 et 06 sont en version 1.0, en attente de validation par Master ;
 - le registre des décisions (A2) ;
 - le registre des validations (A3) ;
 - le registre des risques (A4) ;
@@ -380,13 +380,13 @@ Aucune exception en V1. Si un besoin futur exigeait de manipuler de telles donn�
 
 ### 8.5 Sécurité de l'accès distant — point d'attention
 
-La sécurité de l'accès distant fait partie des risques sous-évalués identifiés dans l'audit du document 08 (voir A4, R-02). Elle doit être réévaluée lors de l'installation de Tailscale et d'OpenWebUI, avant toute utilisation à distance.
+La sécurité de l'accès distant fait partie des risques sous-évalués identifiés dans la consolidation du 2026-11-18 (voir A4, R-02). Elle doit être réévaluée lors de l'installation de Tailscale et d'OpenWebUI, avant toute utilisation à distance.
 
 ---
 
 ## 9. Sauvegardes et continuité
 
-### 9.1 Règle gelée
+### 9.1 Règle en vigueur
 
 - **Sauvegardes quotidiennes.**
 - **Rétention 30 jours.**
@@ -397,7 +397,7 @@ Cette règle s'applique au dépôt, à la documentation et à la mémoire techni
 
 - La machine hôte est allumée 24/7 : si elle s'éteint ou tombe en panne, l'équipe IA locale est indisponible jusqu'au redémarrage.
 - Le dépôt GitHub privé est la copie de référence du code et de la documentation versionnée : tant que les pushes sont faits (sur « Pousse » de Master), le travail n'est pas perdu avec la machine.
-- L'absence de plan de sauvegarde formalisé fait partie des risques manquants identifiés dans l'audit du document 08 (voir A4, R-01). La règle « sauvegardes quotidiennes, rétention 30 jours » est la première réponse à ce risque ; le plan détaillé reste à faire valider par Master.
+- L'absence de plan de sauvegarde formalisé fait partie des risques manquants identifiés dans la consolidation du 2026-11-18 (voir A4, R-01). La règle « sauvegardes quotidiennes, rétention 30 jours » est la première réponse à ce risque ; le plan détaillé reste à faire valider par Master.
 
 ### 9.3 Ce qui reste à décider par Master
 
@@ -421,7 +421,7 @@ Ces trois points sont marqués **« En attente de décision Master »** — ils 
 
 ### 10.2 V2 — Deux modèles aux visions différentes
 
-- V2 à 2 modèles aux visions différentes (Rôle A / Rôle B) — décision gelée (voir A2).
+- V2 à 2 modèles aux visions différentes (Rôle A / Rôle B) — décision (voir A2).
 - L'Arbiter indépendant (Muse ou modèle tiers, jamais un auteur) devient systématique en cas de désaccord.
 
 ### 10.3 Après la V1
@@ -442,9 +442,9 @@ Aucune évolution n'est planifiée ici au-delà de ce qui est écrit ci-dessus �
 - Cette limite conditionne le workflow : Rôle A et Rôle B ne travaillent pas en parallèle en mémoire vive GPU — ils se succèdent.
 - Les modèles légers (ex. Llama-3.2-3B, exécution) sont moins contraints, mais toute combinaison doit être vérifiée par la mesure, pas supposée.
 
-### 11.2 Qwen2.5-Coder-7B faible en planification
+### 11.2 Qwen2.5-Coder-7B — planification (hypothèse à vérifier)
 
-- **Qwen2.5-Coder-7B est faible en planification.**
+- **Qwen2.5-Coder-7B est supposé faible en planification (hypothèse à vérifier en pratique).**
 - C'est la raison d'être du Rôle B (DeepSeek-R1 8B) et de l'Arbiter : la planification et l'arbitrage ne reposent pas sur le seul Rôle A.
 - Toute tâche de planification confiée au seul Rôle A doit être relue par le Rôle B ou arbitrée.
 
@@ -458,7 +458,7 @@ Aucune évolution n'est planifiée ici au-delà de ce qui est écrit ci-dessus �
 
 - L'équipe IA locale dépend d'une seule machine allumée 24/7 (voir § 2.1 et § 9.2) — dépendance à une seule personne / une seule machine, risque identifié dans A4 (R-01).
 - Les modèles locaux quantifiés ont des capacités limitées par rapport aux modèles externes — c'est un choix assumé de confidentialité, pas un défaut à contourner en envoyant des données réelles vers l'extérieur (interdit, voir § 8).
-- Tailscale, Ollama, OpenWebUI, PostgreSQL et LangGraph ne sont pas encore installés au 2026-11-18 : l'architecture décrite ici est **prête pour la v1, non gelée — proposée pour gel le 2026-11-18**, mais **pas encore déployée**. Le déploiement commence seulement après le gel des documents.
+- Tailscale, Ollama, OpenWebUI, PostgreSQL et LangGraph ne sont pas encore installés au 2026-11-18 : l'architecture décrite ici est **prête pour la v1 — Version 1.0, en attente de validation par Master**, mais **pas encore déployée**. Le déploiement commence seulement après validation des documents par Master.
 
 ---
 
@@ -466,20 +466,20 @@ Aucune évolution n'est planifiée ici au-delà de ce qui est écrit ci-dessus �
 
 | Référence | Contenu |
 |---|---|
-| Document 01 | Vision Produit V4 (gelé) |
-| Document 02 | Périmètre MVP v1.0 (gelé) |
-| Document 03 | Architecture de sécurité v1.0 (gelé) |
-| Document 04 | Registre de validation — BROUILLON PRÉPARÉ (pas gelé) |
-| Document 05 | Charte de l'Équipe IA KNuit — proposée pour gel le 2026-11-18 |
-| Document 06 | Architecture de l'Équipe IA KNuit — proposée pour gel le 2026-11-18 |
+| Document 01 | Vision Produit V4 (Version 1.0) |
+| Document 02 | Périmètre MVP v1.0 (Version 1.0) |
+| Document 03 | Architecture de sécurité v1.0 (Version 1.0) |
+| Document 04 | Registre de validation — BROUILLON PRÉPARÉ |
+| Document 05 | Charte de l'Équipe IA KNuit — Version 1.0, en attente de validation par Master |
+| Document 06 | Architecture de l'Équipe IA KNuit — Version 1.0, en attente de validation par Master |
 | Annexe A1 | État actuel du projet |
 | Annexe A2 | Registre des décisions |
 | Annexe A3 | Registre des validations |
 | Annexe A4 | Registre des risques |
-| Annexe A5 | Architecture Technique de l'Équipe IA KNuit v1.0 (ce document) — proposée pour gel le 2026-11-18 |
-| Annexe A6 | Document vivant / de référence — jamais gelé (voir son en-tête) |
-| Annexe A7 | Document vivant / de référence — jamais gelé (voir son en-tête) |
-| Gabarits | Proposés pour gel le 2026-11-18 |
+| Annexe A5 | Architecture Technique de l'Équipe IA KNuit v1.0 (ce document) — Version 1.0, en attente de validation par Master |
+| Annexe A6 | Document vivant / de référence (voir son en-tête) |
+| Annexe A7 | Document vivant / de référence (voir son en-tête) |
+| Gabarits | Version 1.0, en attente de validation par Master |
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : références renumérotées vers la nouvelle numérotation (01 Vision, 02 Périmètre MVP, 03 Architecture de sécurité, 04 Registre) ; « proposées pour gel » retiré pour A6 et A7 — documents vivants / de référence, jamais gelés (voir leur en-tête).]
 | Dossier de validation expert | Rédigé hors dépôt (voir A1) |
@@ -487,4 +487,4 @@ Aucune évolution n'est planifiée ici au-delà de ce qui est écrit ci-dessus �
 
 ---
 
-*Fin de l'annexe A5 — Architecture Technique de l'Équipe IA KNuit v1.0 — Statut : PRÊT POUR GEL — État : Prête pour la v1, non gelée — proposée pour gel le 2026-11-18.*
+*Fin de l'annexe A5 — Architecture Technique de l'Équipe IA KNuit v1.0 — Statut : Version 1.0 (2026-11-19), en attente de validation par Master.*

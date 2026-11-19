@@ -8,17 +8,17 @@
 | **Statut** | Document vivant (complété à chaque amendement validé) |
 | **Décideur** | Master |
 
-Ce journal est la **trace officielle** de toutes les modifications apportées au dossier documentaire KNuit après son gel initial. Rien ne se modifie sans y laisser une entrée.
+Ce journal est la **trace officielle** de toutes les modifications apportées au dossier documentaire KNuit après sa constitution initiale. Rien ne se modifie sans y laisser une entrée.
 
 ---
 
-## Règles de modification (gelées)
+## Règles de modification (en vigueur)
 
 1. **Tout amendement = une nouvelle entrée** dans ce journal, datée et numérotée.
 2. **Validation Master obligatoire** : aucun amendement n'entre en vigueur sans la décision explicite de Master.
-3. **Aucune modification silencieuse** : on ne réécrit pas un document gelé sans entrée correspondante ici.
+3. **Aucune modification silencieuse** : on ne réécrit pas un document sans entrée correspondante ici.
 4. **Traçabilité** : chaque entrée indique ce qui change, pourquoi, et quels documents sont touchés.
-5. **Ordre des sources de vérité** : 1. Décision Master · 2. Validation expert · 3. Documents validés · 4. Preuves vérifiables · 5. Recommandations IA, en dernier.
+5. **Ordre des sources de vérité** : 1. Décision Master · 2. Validation experte (avant commercialisation) · 3. Documents validés · 4. Preuves vérifiables · 5. Recommandations IA, en dernier.
 6. **Créateur ≠ critique** : l'amendement est relu par un rôle qui n'en est pas l'auteur ; l'Arbiter n'est jamais un auteur.
 7. **Max 3 cycles** de révision puis escalade vers Master.
 
@@ -68,7 +68,7 @@ Ce journal est la **trace officielle** de toutes les modifications apportées au
 
 **Contenu de l'amendement :**
 
-1. **Report fidèle des .docx** (aucune paraphrase, aucune invention) : 01 Vision Produit V4 (16 nov. 2026, @Fred, 11 sections, 2 tableaux) ; 02 Périmètre MVP v1.0 + amendement v1.1 du 2026-11-17 (§1-8) ; 03 Architecture de sécurité v1.0 + amendement v1.1 du 2026-11-17 (§1-9) ; 04 Registre de validation, brouillon du 2026-11-16 / mise à jour 2026-11-17 (§1-4, tableaux A-I, Phase 0 0.1-0.6, fonctions sensibles).
+1. **Report fidèle des .docx** (aucune paraphrase, aucune invention) : 01 Vision Produit V4 (16 nov. 2026, Master, 11 sections, 2 tableaux) ; 02 Périmètre MVP v1.0 + amendement v1.1 du 2026-11-17 (§1-8) ; 03 Architecture de sécurité v1.0 + amendement v1.1 du 2026-11-17 (§1-9) ; 04 Registre de validation, brouillon du 2026-11-16 / mise à jour 2026-11-17 (§1-4, tableaux A-I, Phase 0 0.1-0.6, fonctions sensibles).
 2. **Correction de statut :** l'amendement n° 1 disait « 01-04 GELÉ » — c'est faux pour le 04. Le .docx du registre est un **BROUILLON PRÉPARÉ**, pas gelé : la validation humaine par un expert reste à faire pour chaque élément. Le README est corrigé en conséquence.
 3. **Ajouts Copilot intégrés, marqués « ⚠️ À VALIDER PAR MASTER »** (ne font pas partie du texte validé) : 02 §9 Séparation entre le produit KNuit et l'équipe IA ; 03 §10 Séparation des données, §11 IA externes et modèles, §12 Sauvegardes et continuité de l'équipe IA ; 04 §5 Définition de prêt, §6 Gestion des secrets, §7 Continuité.
 4. **Écarts relevés, à trancher par Master (texte validé intact) :**
@@ -98,7 +98,7 @@ Ce journal est la **trace officielle** de toutes les modifications apportées au
 - **03 Architecture de sécurité (8)** : en-tête précisé « GELÉ (Partie A) ; Sections 10-12 : À VALIDER PAR MASTER » ; Workbox retiré (§1, §8 CSP, §8 dépendances, §8 service worker) ; section Écarts mise à jour (écart tranché) ; Partie B « principes déjà gelés dans la Charte » → « principes proposés pour gel ».
 - **04 Registre de validation (6)** : note de lecture sur la numérotation consolidée ajoutée en introduction ; §1 ligne G Cloudflare précisée (« gelé jusqu'à validation d'architecture écrite, à vérifier, non acquis ») ; §2 ligne 0.1 annotée (état au 2026-11-17 ; état actuel voir A1 et A5) ; §2 ligne 0.6 Workbox retiré ; §7.2 « Documents validés : la charte (05)… » → « Documents de référence… proposées pour gel » ; « principes gelés » → « principes proposés pour gel » (bandeau Partie B). Les tableaux historiques (§1, §2) n'ont pas été réécrits — seules les lignes G et 0.6, corrections tranchées, ont été précisées et signalées.
 - **05 Charte (4)** : modèles Llama-3.2-3B (exécution) et DeepSeek-Coder-V2-Lite quantifié (planification/arbitrage) ajoutés à l'inventaire §5 ; §8 et §16.2 « cahier des charges » → « périmètre MVP (doc 02) » ; §17.1 « gelé en v1.0 » → « proposé pour gel ».
-- **06 Architecture de l'Équipe IA (6)** : §6 et §16.2 « cahier des charges » → « périmètre MVP (doc 02) » ; §8 ligne orchestration V1 ajoutée (script Python minimal, voir A5 §4.4 ; LangGraph préféré à CrewAI au-delà de la V1, D-14) et modèles Llama-3.2-3B / DeepSeek-Coder-V2-Lite ajoutés ; §10.3 « (rappel gelé) » → « (état vérifié du dépôt, voir A5 §2.4) » ; §15.4-15.5 reformulés au conditionnel (restauration et responsable seulement une fois validés/désignés par Master) ; §17.1 « gelé en v1.0 » → « proposé pour gel ».
+- **06 Architecture de l'Équipe IA (6)** : §6 et §16.2 « cahier des charges » → « périmètre MVP (doc 02) » ; §8 ligne orchestration V1 ajoutée (script Python minimal, voir A5 §4.4 ; LangGraph au-delà de la V1, sur décision de Master (D-14)) et modèles Llama-3.2-3B / DeepSeek-Coder-V2-Lite ajoutés ; §10.3 « (rappel gelé) » → « (état vérifié du dépôt, voir A5 §2.4) » ; §15.4-15.5 reformulés au conditionnel (restauration et responsable seulement une fois validés/désignés par Master) ; §17.1 « gelé en v1.0 » → « proposé pour gel ».
 - **A1 État actuel (9)** : §4.1 et §7 renumérotés, statut 04 = BROUILLON PRÉPARÉ ; §4.2 titres 05/06 ajoutés ; §4.3 et §4.5 A6/A7 retirés du gel et de STOP documentation ; §5-§6 ordre d'installation corrigé ; condition d'installation reformulée au futur (« doivent être gelés par Master »).
 - **A2 Registre des décisions (22)** : champs « Date d'origine » et « Confirmée / reprise le : 2026-11-18 » ajoutés aux 16 décisions (seules D-05/D-06 ont une origine sourcée : doc 02 validé 2026-11-16 ; les 14 autres portent la date de consolidation, sans fausse date inventée) ; introduction « Décisions en attente » corrigée ; D-05 « même factices » marqué comme extension proposée à confirmer ; D-06 aligné sur le doc 02 ; ordre d'installation corrigé en D-11 et D-16.
 - **A3 Registre des validations (9)** : V-01 à V-04 renumérotés avec dates exactes ; validateurs corrigés (« Gelé par Master… — validation experte humaine en attente » ; V-01/V-04 : validations clinique/juridique en attente, voir doc 01) ; V-03 statut BROUILLON PRÉPARÉ avec note de primauté corrigée (conflit → escalade vers Master, aucun ne prime) ; titres V-05/V-06 ajoutés ; V-08/V-09 A6/A7 vivants ; §4 STOP documentation corrigé.
@@ -115,7 +115,7 @@ Ce journal est la **trace officielle** de toutes les modifications apportées au
 2. **Modèles ajoutés à 05 §5 et 06 §8** : Llama-3.2-3B (exécution) et DeepSeek-Coder-V2-Lite quantifié (planification/arbitrage) ; planification de préférence confiée à DeepSeek-Coder-V2-Lite (A5 §5.2).
 3. **Ordre d'installation corrigé** : Ollama, Tailscale, OpenWebUI (vérifier l'écoute sur l'IP Tailscale), PostgreSQL, LangGraph.
 4. **A6 et A7 = documents vivants / de référence**, jamais gelés (en-têtes, A1 §4.3, A3 V-08/V-09, A5 §12, conditions STOP documentation).
-5. **LangGraph** : V1 = script Python de 200 à 300 lignes, pas de framework ; LangGraph préféré à CrewAI au-delà de la V1, à installer seulement sur décision Master (A5 §4.4, 06 §8).
+5. **LangGraph** : V1 = script Python de 200 à 300 lignes, pas de framework ; LangGraph au-delà de la V1, à installer seulement sur décision Master (A5 §4.4, 06 §8).
 
 **Points qui restent ouverts (à trancher par Master) :**
 - Feuille de route de la Vision V4 : schéma 5 phases / 3 portes embarqué dans le .docx, illisible — toujours une note, aucun contenu inventé.
@@ -180,6 +180,97 @@ Ce journal est la **trace officielle** de toutes les modifications apportées au
 3. **Pourquoi pas les anciennes paires** : Claude ne fait pas partie de l'équipe (modèle externe, pas de modèle local Ollama — l'utiliser obligerait à envoyer du travail hors de la machine, contre la règle « aucune donnée dans les IA externes ») et Muse y était créateur, ce qui contredit son rôle gelé de chef de projet (propose, synthétise, vérifie — ne produit pas les livrables et ne tranche pas).
 
 **Conséquence :** le point ouvert « paires de critique » de l'amendement n° 5 est clos. Le dossier est désormais complet sur ce point ; restent ouverts la feuille de route de la Vision, le gestionnaire de secrets, les experts sécurité / juridique / médical / psy et la procédure de sauvegarde/restauration.
+
+---
+
+### Amendement n° 7 — 2026-11-19 — Revue critique du dossier documentaire
+
+| Champ | Détail |
+|---|---|
+| **Date** | 2026-11-19 |
+| **Décideur** | Master |
+| **Origine** | Revue critique du dossier documentaire par Muse (chef de projet), puis 16 réponses de Master |
+| **Documents touchés** | README, 01, 02, 03, 04, 05, 06, A1, A2, A3, A4, A5, A7, T1, T2, T3 |
+
+**Contenu de l'amendement :**
+
+1. **Ajouts Copilot confirmés validés** : les ajouts aux docs 02 (§9), 03 (§10-12) et 04 (§5-7) sont validés par Master ; les statuts contradictoires (« à valider par Master » dans les titres et pieds) sont corrigés en « Validés par Master le 2026-11-19 » partout.
+2. **Modifications de l'amendement n° 3 confirmées** : les modifications de textes validés (Vision « Versioning public », Workbox, mode de récupération, cellules des tableaux historiques du registre) sont validées par Master ; les affirmations inexactes autour d'elles sont corrigées, pas les modifications elles-mêmes.
+3. **Règle de conflit restaurée** : sur le fond (produit, sécurité), les docs 01/02 priment ; sur le fonctionnement de l'équipe, la charte prime ; en cas de conflit, Master tranche. La charte ne peut pas annuler une décision produit/sécurité validée par Master.
+4. **D-18 corrigée — justification honnête** : Claude n'est pas membre de l'équipe locale (pas de modèle local Ollama). La règle validée interdit les données RÉELLES dans les IA externes ; la critique externe par copier-coller avec des données fictives reste possible ponctuellement, comme en 2026-11-16. Muse, chef de projet, ne produit pas les livrables de routine de l'équipe ; ses livrables antérieurs (charte, dossier expert, consolidation) restent valides.
+5. **Docs de gouvernance confirmés dans le dépôt** : fin de la règle « hors dépôt » (2026-11-16) ; les documents de gouvernance sont dans le dépôt, sous `documentation/`. Les textes nécessaires sont corrigés en conséquence.
+6. **Éléments de la charte restaurés** : format obligatoire de décision (nouvelle §18 du doc 05), « les IA peuvent décider seules » (nouvelle §19), sécurité de l'environnement (nouvelle §15, 6 niveaux, compte Windows dédié `KNuit-AI`, Tailscale, binding OpenWebUI à l'IP Tailscale).
+7. **Orchestrateur = Muse en V1** : il répartit les tâches, fait respecter la limite de 3 cycles, escalade les désaccords vers Master. L'outil d'orchestration en V1 est un script Python minimal ; LangGraph seulement sur décision de Master.
+8. **Règles nouvelles tranchées** : sauvegardes quotidiennes / rétention 30 jours gardées (support, emplacement, procédure, responsable restent ouverts) ; recherche vectorielle (RAG) non retenue en V1 ; comparaison avec un outil d'orchestration concurrent retirée (cet outil n'a jamais été un candidat) ; modèles confirmés (Qwen2.5-Coder 7B rôle A, DeepSeek-R1 8B rôle B, Llama-3.2-3B exécution, DeepSeek-Coder-V2-Lite planification/arbitrage) ; « Qwen2.5-Coder-7B est faible en planification » devient une hypothèse à vérifier en pratique, pas un fait ; détails machine non sourcés (« 32 Go DDR5 », « ~2 To libres », « Windows 11 ») retirés — seule la spécification confirmée est gardée (i7-13700F, 32 Go RAM, RTX 4060 Ti 8 Go). [Corrigé par l'amendement n° 10 (2026-11-19) : les trois détails ont été confirmés par Master et restaurés.]
+9. **Étiquettes D-01 à D-16 corrigées** : « Confirmée / reprise le : 2026-11-18 » → « 2026-11-19 » ; seules D-05 et D-06 ont une origine datée et sourcée (doc 02, 2026-11-16).
+10. **Nom de Master uniformisé** : toute référence au nom précédemment indiqué ou au prénom précédemment indiqué est remplacée par « Master », y compris dans les notes de correction.
+11. **Rex identifié** : Rex est une IA utilisée par Master via son téléphone.
+12. **Hiérarchie uniformisée sur le schéma ramifié** : Rôle A et Rôle B côte à côte, critique croisée A↔B, Arbiter jamais un auteur (doc 05 §4, doc 06 §3.1).
+13. **Corrections Basse** : D-11 reformulée (fin du gel, voir amendement n° 8), gabarits T2/T3 complétés, doublons et incohérences mineures corrigés.
+
+Note : l'affirmation de l'amendement n° 1 sur les corrections « Tailscale / OpenWebUI » de la charte était inexacte pour le doc 05 (la sécurité de l'environnement avait été supprimée du doc 05, pas précisée) ; elle est corrigée par la restauration de la section sécurité de l'environnement du doc 05 (§15).
+
+**Conséquence :** le dossier documentaire est corrigé dans son ensemble (17 fichiers). Les décisions de cet amendement sont appliquées dans ce lot, avec les amendements n° 8 et n° 9.
+
+---
+
+### Amendement n° 8 — 2026-11-19 — Fin du gel
+
+| Champ | Détail |
+|---|---|
+| **Date** | 2026-11-19 |
+| **Décideur** | Master |
+| **Origine** | Décision de Master (« Aucun fichier ne sera réellement gelé. On pourra en tout temps y apporter des modifications lorsque nécessaire. ») |
+| **Documents touchés** | README, 01, 02, 03, 04, 05, 06, A1, A2, A3, A4, A5, A6, A7, T1, T2, T3 |
+
+**Contenu de l'amendement :**
+
+1. **Aucun document n'est gelé.** Tout document est vivant et modifiable à tout moment par décision de Master, tracée dans ce journal.
+2. **Les statuts « GELÉ » et « PRÊT POUR GEL » sont supprimés partout** et remplacés par « Version 1.0 — document vivant, modifiable à tout moment par décision de Master, tracée au journal A6. »
+3. **« Proposé pour gel » devient « Version 1.0, en attente de validation par Master ».**
+4. Les occurrences historiques du mot « gelé » dans les amendements n° 1 à 6 et dans les notes de correction datées restent telles quelles, à titre d'historique ; elles ne décrivent plus l'état actuel d'aucun document.
+
+**Conséquence :** le dossier documentaire n'a plus de document gelé. La traçabilité des modifications est assurée par ce journal, pas par un gel.
+
+---
+
+### Amendement n° 9 — 2026-11-19 — Validation experte reportée à avant commercialisation
+
+| Champ | Détail |
+|---|---|
+| **Date** | 2026-11-19 |
+| **Décideur** | Master |
+| **Origine** | Décision de Master (« Je veux qu'on produise un app, avant de la commercialiser je la ferai valider par les experts nécessaires et non pas faire valider au fur et à mesure. ») |
+| **Documents touchés** | 01, 02, 03, 04, 05, 06, A1, A2, A3, A4, A5, A6, A7, T3 |
+
+**Contenu de l'amendement :**
+
+1. **Fin de la validation au fur et à mesure.** Pendant le développement, aucune validation experte n'est demandée, élément par élément.
+2. **Une seule validation experte globale, avant toute commercialisation ou diffusion publique.** Master fera valider l'application par les experts nécessaires avant de la commercialiser.
+3. **Le registre (doc 04) devient la liste des éléments à valider avant commercialisation.** Les éléments y sont « En cours » ou « À valider avant commercialisation » pendant le développement ; aucun ne passe « Validé » avant la validation experte pré-commercialisation.
+4. **Le dossier expert hors dépôt devient le dossier de validation pré-commercialisation.** Il n'est pas modifié dans ce lot.
+5. **Le gate du code (CONTENT-STATUS.md / scripts/check-content-status.mjs) n'est pas modifié dans ce lot.** Il fera l'objet d'une tâche distincte (adapter la notion de « validé » au nouveau calendrier).
+
+**Conséquence :** la validation experte n'est plus un jalon de développement mais un jalon de commercialisation. Le dossier de validation expert (hors dépôt) et le registre (doc 04) sont les deux outils de cette validation unique.
+
+---
+
+### Amendement n° 10 — 2026-11-19 — Spécifications machine confirmées par Master
+
+| Champ | Détail |
+|---|---|
+| **Date** | 2026-11-19 |
+| **Décideur** | Master |
+| **Origine** | Confirmation de Master (spécifications de son ordinateur) |
+| **Documents touchés** | 05, A1, A4, A5, A6 |
+
+**Contenu de l'amendement :**
+
+1. **Spécifications confirmées** : Intel i7-13700F, 32 Go de RAM DDR5, GPU NVIDIA GeForce RTX 4060 Ti 8 Go, ~2 To libres, Windows 11.
+2. **Restauration** : les trois détails retirés par l'amendement n° 7 point 8 faute de source sont restaurés dans le doc 05 (§15), A1 (§5), A4 (R-01a) et A5 (§2.1).
+3. **Proposition gate validée en principe, sans code pour l'instant** : la proposition d'adapter le gate du code (CONTENT-STATUS.md / scripts/check-content-status.mjs) au nouveau calendrier de validation (amendement n° 9 point 5) est validée par Master — mais aucun code n'est écrit pour l'instant. La tâche reste à lancer plus tard, sur décision de Master.
+
+**Conséquence :** les spécifications machine du dossier sont désormais sourcées (confirmation Master 2026-11-19).
 
 ---
 

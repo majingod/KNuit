@@ -5,8 +5,10 @@
 | **Projet** | KNuit — application Kink de Nuit |
 | **Gabarit** | T3 — Template de validation expert |
 | **Document validé** | <!-- Titre + emplacement du document / livrable soumis --> |
-| **Auteur** | <!-- Rôle A / Rôle B --> |
+| **Auteur** | <!-- Rôle A / Rôle B / Muse --> |
 
+> **À utiliser avant commercialisation uniquement (amendement n° 9).**
+>
 > Copier ce gabarit pour chaque validation humaine requise. La validation expert est une **source de vérité n° 2** (après la décision Master, avant les documents validés). Obligatoire pour les contenus sensibles : sécurité, contenu de crise, médical, juridique.
 
 ---
@@ -57,7 +59,7 @@ L'expert et Master lisent selon le niveau nécessaire :
 
 ### Général
 
-- [ ] Le livrable respecte les documents gelés (01-03), la charte (05), l'architecture équipe IA (06) et le registre (04, brouillon préparé). [Correction de cohérence 2026-11-19 — amendement n° 3 : checklist corrigée — le registre 04 est un brouillon préparé.]
+- [ ] Le livrable respecte les documents de référence (01-03), la charte (05), l'architecture équipe IA (06) et le registre (04, brouillon préparé). [Correction de cohérence 2026-11-19 — amendement n° 3 : checklist corrigée — le registre 04 est un brouillon préparé.]
 - [ ] Les preuves vérifiables sont jointes (tests, hashes, builds).
 - [ ] La critique croisée a eu lieu (créateur ≠ critique) ; les désaccords sont arbitrés ou escaladés.
 

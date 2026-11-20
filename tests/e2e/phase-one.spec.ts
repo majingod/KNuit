@@ -15,20 +15,106 @@ test.afterAll(async () => {
   await stopAll()
 })
 
-test('accueil : les parcours Phase 1 sont accessibles', async () => {
+test('accueil : la maquette de navigation et les parcours sont accessibles', async () => {
   const context = await browser.newContext()
   const page = await context.newPage()
   await page.goto(BASE, { waitUntil: 'domcontentloaded' })
-  await expect(page.getByRole('heading', { name: 'KNuit' })).toBeVisible()
   await expect(
-    page.getByRole('main').getByRole('link', { name: 'Mode Urgence' }),
-  ).toHaveAttribute('href', '/urgence')
+    page.getByRole('heading', { name: 'Bienvenue sur Kink de Nuit' }),
+  ).toBeVisible()
   await expect(
-    page.getByRole('main').getByRole('link', { name: 'Faire le point' }),
+    page.getByRole('main').getByRole('link', { name: 'Je découvre' }),
+  ).toHaveAttribute('href', '/decouvrir')
+  await expect(
+    page
+      .getByRole('main')
+      .getByRole('link', { name: 'Je prépare une scène' }),
+  ).toHaveAttribute('href', '/preparer-scene')
+  await expect(
+    page.getByRole('main').getByRole('link', { name: 'Mode Duo' }),
+  ).toHaveAttribute('href', '/mode-duo')
+  await expect(
+    page
+      .getByRole('main')
+      .getByRole('link', { name: 'Pratique solo et sécurité' }),
+  ).toHaveAttribute('href', '/pratique-solo')
+  await expect(
+    page.getByRole('main').getByRole('link', { name: 'Ça s’est mal passé ?' }),
   ).toHaveAttribute('href', '/mal-passe')
   await expect(
-    page.getByRole('navigation', { name: 'Accès rapide' }).getByRole('link'),
-  ).toBeVisible()
+    page
+      .getByRole('navigation', { name: 'Navigation principale' })
+      .getByRole('link'),
+  ).toHaveCount(4)
+  await expect(
+    page
+      .getByRole('navigation', { name: 'Navigation principale' })
+      .getByRole('link', { name: 'Urgence' }),
+  ).toHaveAttribute('href', '/urgence')
+  await expect(
+    page.getByRole('navigation', { name: 'Compte et paramètres' }).getByRole('link'),
+  ).toHaveCount(3)
+  await context.close()
+})
+
+test('les sections non livrées affichent un écran en construction', async () => {
+  const context = await browser.newContext()
+  const page = await context.newPage()
+
+  for (const [path, title] of [
+    ['/decouvrir', 'Je découvre'],
+    ['/preparer-scene', 'Je prépare une scène'],
+    ['/mode-duo', 'Mode Duo'],
+    ['/pratique-solo', 'Pratique solo et sécurité'],
+    ['/contact', 'Contact'],
+    ['/profil', 'Profil'],
+    ['/apparence', 'Apparence'],
+    ['/parametres', 'Paramètres'],
+  ]) {
+    await page.goto(`${BASE}${path}`, { waitUntil: 'domcontentloaded' })
+    await expect(page.getByRole('heading', { name: title })).toBeVisible()
+    await expect(page.getByText('Section en construction')).toBeVisible()
+    await expect(
+      page.getByRole('link', { name: 'Retour à l’accueil' }),
+    ).toHaveAttribute('href', '/')
+  }
+  await context.close()
+})
+
+test('accueil : les illustrations UX sont présentes et chargées', async () => {
+  const context = await browser.newContext()
+  const page = await context.newPage()
+  await page.goto(BASE, { waitUntil: 'domcontentloaded' })
+
+  const imagePaths = [
+    '/images/ux/07-lune-doree.jpg',
+    '/images/ux/01-salon-accueil.jpg',
+    '/images/ux/02-grimoire-pentacle.jpg',
+    '/images/ux/03-grimoire-plume.jpg',
+    '/images/ux/04-couple-silhouette.jpg',
+    '/images/ux/05-lanterne.jpg',
+    '/images/ux/06-lys-violet.jpg',
+  ]
+  for (const path of imagePaths) {
+    const image = page.locator(`img[src="${path}"]`)
+    await expect(image).toHaveCount(1)
+    await image.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() =>
+        image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
+      )
+      .toBeGreaterThan(0)
+  }
+  await page.locator('.bottom-nav-icon').first().scrollIntoViewIfNeeded()
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        performance
+          .getEntriesByType('resource')
+          .some((entry) => entry.name.includes('/images/ux/08-icones-dorees.jpg')),
+      ),
+    )
+    .toBe(true)
   await context.close()
 })
 

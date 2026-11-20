@@ -56,10 +56,30 @@ test('online : /legal s’affiche', async () => {
   await context.close()
 })
 
-test('online : footer visible sur accueil, /about et /legal, ABSENT sur /urgence', async () => {
+test('online : navigation d’accueil et footer secondaires, footer ABSENT sur /urgence', async () => {
   const context = await browser.newContext()
   const page = await context.newPage()
-  for (const route of ['/', '/about', '/legal']) {
+  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
+  const homeNavigation = page.getByRole('navigation', {
+    name: 'Navigation principale',
+  })
+  await expect(homeNavigation.getByRole('link', { name: 'Ressources' })).toHaveAttribute(
+    'href',
+    '/decouvrir',
+  )
+  await expect(homeNavigation.getByRole('link', { name: 'Sécurité' })).toHaveAttribute(
+    'href',
+    '/pratique-solo',
+  )
+  await expect(homeNavigation.getByRole('link', { name: 'Urgence' })).toHaveAttribute(
+    'href',
+    '/urgence',
+  )
+  await expect(homeNavigation.getByRole('link', { name: 'Contact' })).toHaveAttribute(
+    'href',
+    '/contact',
+  )
+  for (const route of ['/about', '/legal']) {
     await page.goto(`${BASE}${route}`, { waitUntil: 'domcontentloaded' })
     const footer = page.getByRole('contentinfo')
     await expect(footer).toBeVisible()
@@ -97,21 +117,23 @@ test('online : footer visible sur accueil, /about et /legal, ABSENT sur /urgence
   await context.close()
 })
 
-test('online : clic réel sur les liens du footer vers /about et /legal', async () => {
+test('online : les liens secondaires permettent de naviguer entre /about et /legal', async () => {
   const context = await browser.newContext()
   const page = await context.newPage()
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
+  await page.goto(`${BASE}/about`, { waitUntil: 'domcontentloaded' })
   const footer = page.getByRole('contentinfo')
-  await footer.getByRole('link', { name: 'À propos', exact: true }).click()
-  await expect(page).toHaveURL(`${BASE}/about`)
-  await expect(
-    page.getByRole('heading', { name: 'À propos', exact: true }),
-  ).toBeVisible()
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
   await footer.getByRole('link', { name: 'Mentions légales', exact: true }).click()
   await expect(page).toHaveURL(`${BASE}/legal`)
   await expect(
     page.getByRole('heading', { name: 'Mentions légales', exact: true }),
+  ).toBeVisible()
+  await page
+    .getByRole('contentinfo')
+    .getByRole('link', { name: 'À propos', exact: true })
+    .click()
+  await expect(page).toHaveURL(`${BASE}/about`)
+  await expect(
+    page.getByRole('heading', { name: 'À propos', exact: true }),
   ).toBeVisible()
   await context.close()
 })

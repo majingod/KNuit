@@ -67,8 +67,9 @@ function securityHeaders(): Plugin {
 // Version du service worker liée au hash de build (tâche 0.7, point Haute 2).
 // public/sw.js est un gabarit : il contient la chaîne '__SW_VERSION__'.
 // Ce plugin la remplace dans dist/sw.js par un hash du contenu servi
-// (sw.js, index.html, manifest, package.json, src/**) — la version change
-// donc dès que le contenu change, sans bump manuel à oublier. Sans cela,
+// (sw.js, index.html, manifest, package.json, src/** et images UX) — la
+// version change dès que le contenu change, sans bump manuel à oublier.
+// Sans cela,
 // un ancien SW en cache servirait indéfiniment l'ancien index.html (avec
 // l'ancienne CSP), et la migration vers les en-têtes HTTP ne l'atteindrait
 // jamais. Le hash est déterministe : un build identique donne la même
@@ -95,6 +96,7 @@ function swVersion(): Plugin {
   addFile('public/manifest.webmanifest')
   addFile('package.json')
   addDir('src')
+  addDir('public/images/ux')
   const version = hash.digest('hex').slice(0, 12)
   return {
     name: 'knuit-sw-version',

@@ -39,19 +39,15 @@ test.afterAll(async () => {
   await stopAll()
 })
 
-test('online : la page d’accueil lie vers Mode Urgence', async () => {
+test('online : la navigation d’accueil donne un accès direct au Mode Urgence', async () => {
   const context = await browser.newContext()
   const page = await context.newPage()
   await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
-  // Scopé à <main> : le footer (Option 2) contient un second lien
-  // « Mode Urgence » vers la même destination. Ce test porte sur le
-  // lien d'accès rapide du contenu principal (viewport), pas sur
-  // celui du pied de page.
   const link = page
-    .getByRole('main')
-    .getByRole('link', { name: 'Mode Urgence' })
+    .getByRole('navigation', { name: 'Navigation principale' })
+    .getByRole('link', { name: 'Urgence' })
   await expect(link).toHaveAttribute('href', '/urgence')
-  // Accès rapide en urgence : le lien doit être visible sans scroller.
+  // Accès direct : le lien doit être visible sans scroller.
   await expect(link).toBeInViewport()
   await link.click()
   await expect(page).toHaveURL(`${BASE}/urgence`)
@@ -144,6 +140,20 @@ test('offline : première visite en ligne → navigation vers /urgence → Mode 
   await expect(
     page.getByRole('heading', { name: 'Bienvenue sur Kink de Nuit' }),
   ).toBeVisible()
+  for (const path of [
+    '/images/ux/07-lune-doree.jpg',
+    '/images/ux/01-salon-accueil.jpg',
+    '/images/ux/05-lanterne.jpg',
+    '/images/ux/06-lys-violet.jpg',
+  ]) {
+    const image = page.locator(`img[src="${path}"]`)
+    await image.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() =>
+        image.evaluate((element) => (element as HTMLImageElement).naturalWidth),
+      )
+      .toBeGreaterThan(0)
+  }
   expect(failed).toEqual([])
   expect(errors).toEqual([])
   await context.setOffline(false)

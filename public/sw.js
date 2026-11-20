@@ -72,6 +72,14 @@ const CACHE_NAME = `knuit-${CACHE_VERSION}`
 const PRECACHE_URLS = [
   '/index.html',
   '/manifest.webmanifest',
+  '/images/ux/01-salon-accueil.jpg',
+  '/images/ux/02-grimoire-pentacle.jpg',
+  '/images/ux/03-grimoire-plume.jpg',
+  '/images/ux/04-couple-silhouette.jpg',
+  '/images/ux/05-lanterne.jpg',
+  '/images/ux/06-lys-violet.jpg',
+  '/images/ux/07-lune-doree.jpg',
+  '/images/ux/08-icones-dorees.jpg',
   // __PRECACHE_ASSETS__
 ]
 

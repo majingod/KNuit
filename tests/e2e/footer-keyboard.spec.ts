@@ -40,7 +40,7 @@ test.afterAll(async () => {
   await stopAll()
 })
 
-const FOOTER_LINKS = ['Accueil', 'Mode Urgence', 'À propos', 'Mentions légales']
+const FOOTER_LINKS = ['Ressources', 'Sécurité', 'Urgence', 'Contact']
 
 test('clavier : ordre de tabulation du footer = ordre DOM, focus visible', async () => {
   const context = await browser.newContext({
@@ -50,11 +50,8 @@ test('clavier : ordre de tabulation du footer = ordre DOM, focus visible', async
   await page.goto(BASE, { waitUntil: 'domcontentloaded' })
   await expect(page.getByRole('contentinfo')).toBeVisible()
 
-  // Tab à travers la page : l'accueil a un lien « Mode Urgence »
-  // dans <main> avant le footer — on ne retient que les liens du
-  // footer (closest('footer')), dans l'ordre où le focus les atteint.
   const focused: Array<{ text: string; outlineStyle: string; outlineWidth: string; outlineOffset: string }> = []
-  for (let i = 0; i < 10 && focused.length < FOOTER_LINKS.length; i++) {
+  for (let i = 0; i < 20 && focused.length < FOOTER_LINKS.length; i++) {
     await page.keyboard.press('Tab')
     const info = await page.evaluate(() => {
       const el = document.activeElement as HTMLElement | null
@@ -112,11 +109,9 @@ test('clavier : Enter sur un lien du footer navigue vers sa cible', async () => 
   })
   const page = await context.newPage()
   await page.goto(BASE, { waitUntil: 'domcontentloaded' })
-  // Tab jusqu'au lien « À propos » du footer (le premier Tab
-  // atteint le lien « Mode Urgence » de <main>, puis les liens du
-  // footer dans l'ordre DOM), puis Enter.
+  // Tab jusqu'au lien « Contact » de la barre inférieure, puis Enter.
   let focusedName: string | null = null
-  for (let i = 0; i < 10 && focusedName !== 'À propos'; i++) {
+  for (let i = 0; i < 20 && focusedName !== 'Contact'; i++) {
     await page.keyboard.press('Tab')
     focusedName = await page.evaluate(() => {
       const el = document.activeElement as HTMLElement | null
@@ -124,12 +119,13 @@ test('clavier : Enter sur un lien du footer navigue vers sa cible', async () => 
       return (el.textContent ?? '').trim()
     })
   }
-  expect(focusedName).toBe('À propos')
+  expect(focusedName).toBe('Contact')
   await page.keyboard.press('Enter')
   // Timeout 10 s (1.3) : une navigation locale same-origin se
   // résout en < 5 s — 10 s, c'est déjà 2x le besoin. Le défaut
   // Playwright (120 s) coûtait 126 s au contrôle négatif.
-  await page.waitForURL('**/about', { timeout: 10_000 })
-  expect(new URL(page.url()).pathname).toBe('/about')
+  await page.waitForURL('**/contact', { timeout: 10_000 })
+  expect(new URL(page.url()).pathname).toBe('/contact')
+  await expect(page.getByText('Section en construction')).toBeVisible()
   await context.close()
 })

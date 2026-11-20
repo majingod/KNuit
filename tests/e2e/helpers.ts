@@ -7,12 +7,14 @@ import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs'
 import {
   cp,
   lstat,
+  mkdtemp,
   readFile,
   rm,
   symlink,
   writeFile,
 } from 'node:fs/promises'
 import http, { type Server } from 'node:http'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Page } from '@playwright/test'
@@ -27,6 +29,7 @@ export const REPO_ROOT = path.resolve(
 )
 export const E2E_DIR = path.dirname(fileURLToPath(import.meta.url))
 export const DIST = path.join(REPO_ROOT, 'dist')
+const VITE_BIN = path.join(REPO_ROOT, 'node_modules', 'vite', 'bin', 'vite.js')
 
 export const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms))
@@ -54,7 +57,7 @@ export function startVite(mode: 'dev' | 'preview', port: number): ChildProcess {
     mode === 'dev'
       ? ['--port', String(port), '--host', '127.0.0.1']
       : ['preview', '--port', String(port), '--host', '127.0.0.1']
-  const child = spawn(path.join(REPO_ROOT, 'node_modules', '.bin', 'vite'), args, {
+  const child = spawn(process.execPath, [VITE_BIN, ...args], {
     cwd: REPO_ROOT,
     stdio: ['ignore', 'pipe', 'pipe'],
   })
@@ -289,7 +292,8 @@ export function readDistFile(relative: string): string {
 // Construction d'une variante de contenu dans une COPIE du projet
 // (Phase 1, tâche 1, Voie A) : le JSON est inliné dans le bundle par
 // Vite (Option A), pas fetché — on ne peut pas le changer à
-// l'exécution. Ce helper copie le projet dans /tmp, y écrit la
+// l'exécution. Ce helper copie le projet dans le dossier temporaire du
+// système, y écrit la
 // variante (dans la copie uniquement), la build, et sert ce build
 // sur un port dédié. Le content.json réel n'est JAMAIS modifié (pas
 // de sauvegarde/restauration à rater), et dist/ n'est jamais
@@ -297,7 +301,7 @@ export function readDistFile(relative: string): string {
 // Pourquoi pas `vite build --outDir` dans le projet : le plugin
 // knuit-sw-version de vite.config.ts lit en dur dist/sw.js et
 // dist/.vite/manifest.json — un build vers un autre outDir échoue en
-// closeBundle (PLUGIN_ERROR, vérifié le 2026-11-17). La copie /tmp
+// closeBundle (PLUGIN_ERROR, vérifié le 2026-11-17). La copie temporaire
 // contourne cela proprement : le plugin y lit ses propres dist/sw.js
 // et dist/.vite/manifest.json.
 // L'appelant doit appeler `cleanup` (try/finally) : ferme le serveur
@@ -314,9 +318,8 @@ export async function buildContentVariantCopy(options: {
   mutate: (content: Record<string, unknown>) => Record<string, unknown>
   port: number
 }): Promise<ContentVariantCopy> {
-  const dir = path.join(
-    '/tmp',
-    `knuit-variant-${process.pid}-${options.port}`,
+  const dir = await mkdtemp(
+    path.join(tmpdir(), `knuit-variant-${process.pid}-${options.port}-`),
   )
   await cp(REPO_ROOT, dir, {
     recursive: true,
@@ -326,7 +329,7 @@ export async function buildContentVariantCopy(options: {
   await symlink(
     path.join(REPO_ROOT, 'node_modules'),
     path.join(dir, 'node_modules'),
-    'dir',
+    process.platform === 'win32' ? 'junction' : 'dir',
   )
   const copyContentPath = path.join(dir, options.contentPath)
   const real = JSON.parse(await readFile(copyContentPath, 'utf8')) as Record<
@@ -338,8 +341,8 @@ export async function buildContentVariantCopy(options: {
   // variante a la même forme que l'original, les types ne changent pas).
   await new Promise<void>((resolve, reject) => {
     execFile(
-      path.join(dir, 'node_modules', '.bin', 'vite'),
-      ['build'],
+      process.execPath,
+      [path.join(dir, 'node_modules', 'vite', 'bin', 'vite.js'), 'build'],
       { cwd: dir, timeout: 120000 },
       (error, stdout, stderr) => {
         if (error) {

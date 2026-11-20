@@ -1,5 +1,6 @@
 import './app.css'
 import { Urgence } from './urgence/urgence.tsx'
+import { MalPasse } from './mal-passe/mal-passe.tsx'
 import { About } from './about/about.tsx'
 import { Legal } from './legal/legal.tsx'
 import { Footer } from './layout/footer.tsx'
@@ -9,18 +10,24 @@ export function App() {
   let page
   if (pathname === '/urgence') {
     page = <Urgence />
+  } else if (pathname === '/mal-passe') {
+    page = <MalPasse />
   } else if (pathname === '/about') {
     page = <About />
   } else if (pathname === '/legal') {
     page = <Legal />
   } else {
     page = (
-      <main>
-        <h1>Application</h1>
-        <p>Squelette vide, en attente des fondations.</p>
+      <main className="home">
+        <h1>KNuit</h1>
         <p>
-          <a href="/urgence">Mode Urgence</a>
+          Une préversion locale pour tester les parcours de la Phase 1. Les
+          contenus de sécurité sont des brouillons non validés.
         </p>
+        <nav className="home-actions" aria-label="Parcours">
+          <a href="/urgence">Mode Urgence</a>
+          <a href="/mal-passe">Faire le point</a>
+        </nav>
       </main>
     )
   }
@@ -33,6 +40,11 @@ export function App() {
   const showFooter = pathname !== '/urgence'
   return (
     <>
+      {pathname !== '/urgence' && (
+        <nav className="app-quick-access" aria-label="Accès rapide">
+          <a href="/urgence">Mode Urgence</a>
+        </nav>
+      )}
       {page}
       {showFooter && <Footer />}
     </>

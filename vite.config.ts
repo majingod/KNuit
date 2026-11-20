@@ -101,14 +101,16 @@ function swVersion(): Plugin {
     closeBundle() {
       const distSw = join(ROOT, 'dist', 'sw.js')
       const source = readFileSync(distSw, 'utf8')
+      const marker = /^[ \t]*\/\/ __PRECACHE_ASSETS__[ \t]*(?:\r?\n|$)/gm
+      const markerMatches = source.match(marker)
       if (!source.includes("'__SW_VERSION__'")) {
         throw new Error(
           "knuit-sw-version : le gabarit de version est absent de dist/sw.js — la version du SW ne serait pas liée au build.",
         )
       }
-      if (!source.includes('  // __PRECACHE_ASSETS__\n')) {
+      if (!markerMatches || markerMatches.length !== 1) {
         throw new Error(
-          "knuit-sw-version : le marqueur d'injection du précache est absent de dist/sw.js — les assets hashés ne seraient pas pré-cachés.",
+          "knuit-sw-version : le marqueur d'injection du précache est absent ou dupliqué dans dist/sw.js — les assets hashés ne seraient pas pré-cachés.",
         )
       }
       // Assets hashés du build (tâche 0.7, complément de scope) : lus dans
@@ -140,11 +142,12 @@ function swVersion(): Plugin {
         .sort()
         .map((asset) => `  '${asset}',`)
         .join('\n')
+      const newline = source.includes('\r\n') ? '\r\n' : '\n'
       writeFileSync(
         distSw,
         source
           .replace("'__SW_VERSION__'", `'${version}'`)
-          .replace('  // __PRECACHE_ASSETS__\n', `${injected}\n`),
+          .replace(marker, `${injected.replace(/\n/g, newline)}${newline}`),
       )
     },
   }

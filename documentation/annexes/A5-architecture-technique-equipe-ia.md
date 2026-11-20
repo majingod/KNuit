@@ -76,7 +76,7 @@ Le développement de l'application KNuit se fait dans le dépôt privé GitHub (
 | Dépôt | github.com/majingod/KNuit |
 | Visibilité | Privé |
 | Branche principale | `main` |
-| Tête de branche vérifiée | `598f460c` |
+| Tête de branche vérifiée le 2026-11-18 | `598f460c` |
 | Déploiement public en V1 | Non — gelé (voir A2) |
 | Cloudflare Pages | Gelé en V1 — pas de déploiement public |
 
@@ -98,6 +98,7 @@ Structure des sources (vérifiée) :
 ```
 src/
   app.tsx
+  mal-passe/
   urgence/
   about/
   legal/
@@ -105,15 +106,15 @@ src/
 public/
   sw.js
 tests/
-  e2e/            # 14 specs Playwright
+  e2e/            # 14 fichiers de specs Playwright, 45 tests
 scripts/
   check-content-status.mjs
 ```
 
 ### 2.5 Suite de vérification
 
-- **Suite vérifiée : 39/39.** Ce chiffre est le seul résultat de test affirmé dans cette annexe. Aucun autre résultat de test n'est inventé ici.
-- Tests end-to-end : 14 specs Playwright, dans `tests/e2e`.
+- **Suite exécutée le 2026-11-20 : 45/45** (`npm run test:e2e`).
+- Tests end-to-end : 45 tests répartis dans 14 fichiers de specs Playwright, dans `tests/e2e`.
 - Script de contrôle de contenu : `scripts/check-content-status.mjs`.
 
 Tout nouveau résultat de test doit être consigné avec sa date, sa commande et sa sortie — jamais de mémoire, jamais approximé.
@@ -198,7 +199,7 @@ Les modèles exacts, leurs quantifications et leurs versions seront consignés l
 ### 4.5 Outils de l'application
 
 - Vite 8.3.8, Preact 11.2.0, TypeScript 7.0.2 (voir § 2.4).
-- Playwright : 14 specs e2e.
+- Playwright : 45 tests répartis dans 14 fichiers de specs e2e.
 - Service worker écrit à la main, sans Workbox.
 - Script `scripts/check-content-status.mjs` : contrôle de statut du contenu.
 
@@ -483,7 +484,7 @@ Aucune évolution n'est planifiée ici au-delà de ce qui est écrit ci-dessus �
 
 > [Correction de cohérence 2026-11-19 — amendement n° 3 : références renumérotées vers la nouvelle numérotation (01 Vision, 02 Périmètre MVP, 03 Architecture de sécurité, 04 Registre) ; « proposées pour gel » retiré pour A6 et A7 — documents vivants / de référence, jamais gelés (voir leur en-tête).]
 | Dossier de validation expert | Rédigé hors dépôt (voir A1) |
-| Dépôt | github.com/majingod/KNuit (privé), branche `main`, tête `598f460c` |
+| Dépôt | github.com/majingod/KNuit (privé), branche `main`, tête `598f460c` au 2026-11-18 |
 
 ---
 

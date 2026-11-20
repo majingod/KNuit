@@ -5,8 +5,9 @@
 // Deux niveaux, complémentaires : la gate (lint) vérifie
 // l'inventaire et les transitions sur les fichiers sources ; ce
 // spec vérifie la même chose au niveau affiché, dans le navigateur.
-// Les six transitions sont testées en boîte noire (fixtures dans
-// /tmp, gate lancée en sous-processus avec --root) — le test ne
+// Les six transitions et les règles de pré-commercialisation sont
+// testées en boîte noire (fixtures temporaires, gate lancée en
+// sous-processus avec --root) — le test ne
 // partage aucun code avec la gate, il ne peut donc pas passer pour
 // la mauvaise raison si la gate est cassée. Les mutations (a)-(e)
 // prouvent ensuite que gate + test sont branchés sur le vrai dépôt.
@@ -15,7 +16,7 @@
 // (src/**/content.json, pas de liste hardcodée), brouillon: true →
 // bandeau visible ET brouillon: false → bandeau absent. La direction
 // false utilise le helper partagé buildContentVariantCopy (copie du
-// projet dans /tmp, variante dans la copie uniquement) — le JSON est
+// projet dans le dossier temporaire, variante dans la copie uniquement) — le JSON est
 // inliné dans le bundle, pas fetché, on ne peut pas le changer à
 // l'exécution. La route suit la convention src/<nom>/content.json →
 // /<nom> : si un bloc casse la convention, le test échoue sur 404
@@ -27,6 +28,7 @@
 import { execFile } from 'node:child_process'
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { chromium, expect, test, type Browser } from '@playwright/test'
 import {
@@ -124,8 +126,8 @@ test('build frais : dist/index.html plus récent que chaque content.json', async
   }
 })
 
-test('gate : les six transitions (fixtures, boîte noire)', async () => {
-  // Chaque cas construit un mini-dépôt dans /tmp (CONTENT-STATUS.md
+test('gate : transitions et pré-commercialisation (fixtures, boîte noire)', async () => {
+  // Chaque cas construit un mini-dépôt temporaire (CONTENT-STATUS.md
   // + src/urgence/content.json) et lance la vraie gate en
   // sous-processus avec --root. Le hash « correct » est obtenu par
   // --print-hash (boîte noire aussi) ; le hash « erroné » est un
@@ -136,12 +138,15 @@ test('gate : les six transitions (fixtures, boîte noire)', async () => {
     statut: string
     hash: 'correct' | 'wrong' | 'none'
     entry: boolean
+    release?: boolean
     expectCode: 0 | 1
   }> = [
     { name: 'brouillon:true + brouillon', brouillon: true, statut: 'brouillon', hash: 'none', entry: true, expectCode: 0 },
     { name: 'brouillon:true + en revue', brouillon: true, statut: 'en revue', hash: 'none', entry: true, expectCode: 0 },
     { name: 'brouillon:true + validé', brouillon: true, statut: 'validé', hash: 'correct', entry: true, expectCode: 1 },
     { name: 'brouillon:false + validé + hash correct', brouillon: false, statut: 'validé', hash: 'correct', entry: true, expectCode: 0 },
+    { name: 'pré-commercialisation + brouillon', brouillon: true, statut: 'brouillon', hash: 'none', entry: true, release: true, expectCode: 1 },
+    { name: 'pré-commercialisation + validé + hash correct', brouillon: false, statut: 'validé', hash: 'correct', entry: true, release: true, expectCode: 0 },
     { name: 'brouillon:false + en revue', brouillon: false, statut: 'en revue', hash: 'none', entry: true, expectCode: 1 },
     { name: 'brouillon:false + brouillon', brouillon: false, statut: 'brouillon', hash: 'none', entry: true, expectCode: 1 },
     { name: 'brouillon:false + validé + hash erroné', brouillon: false, statut: 'validé', hash: 'wrong', entry: true, expectCode: 1 },
@@ -149,7 +154,7 @@ test('gate : les six transitions (fixtures, boîte noire)', async () => {
     { name: 'brouillon:true sans entrée', brouillon: true, statut: 'brouillon', hash: 'none', entry: false, expectCode: 1 },
   ]
   for (const c of cases) {
-    const dir = await mkdtemp(path.join('/tmp', 'knuit-gate-fixture-'))
+    const dir = await mkdtemp(path.join(tmpdir(), 'knuit-gate-fixture-'))
     try {
       const contentPath = path.join(dir, 'src', 'urgence', 'content.json')
       await mkdir(path.dirname(contentPath), { recursive: true })
@@ -185,7 +190,10 @@ test('gate : les six transitions (fixtures, boîte noire)', async () => {
         path.join(dir, 'CONTENT-STATUS.md'),
         lines.join('\n'),
       )
-      const result = await runNode([GATE, '--root', dir], REPO_ROOT)
+      const result = await runNode(
+        [GATE, '--root', dir, ...(c.release ? ['--release'] : [])],
+        REPO_ROOT,
+      )
       expect(
         result.code,
         `${c.name} : attendu ${c.expectCode}, reçu ${result.code} — ${result.stdout} ${result.stderr}`,

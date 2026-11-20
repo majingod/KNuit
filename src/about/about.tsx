@@ -28,6 +28,11 @@ export function About() {
         des contenus de démonstration, en attente de validation par
         des expertes et experts humains.
       </p>
+      <h2>Appareils</h2>
+      <p>
+        L’interface est conçue en priorité pour les téléphones et les
+        tablettes, et reste utilisable dans un navigateur sur Windows.
+      </p>
       <p>
         <a href="/">Retour à l’accueil</a>
       </p>

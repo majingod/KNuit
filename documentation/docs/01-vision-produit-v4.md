@@ -155,11 +155,9 @@ Le cadre juridique dépend de la juridiction, et une partie des choix reste à v
 
 L'ordre de livraison commence par ce qui protège le plus (urgence, aide) et reporte la fonction la plus difficile, le Mode Duo, après trois validations externes.
 
-[Reconstruction d'après le texte validé — l'original (image embarquée dans le .docx) reste à fournir par Master. Ce tableau reprend l'ordre de livraison du doc 02 §6 et les trois validations externes de la section « Prochaines étapes ». À confirmer.]
+[Reconstruction provisoire d'après le texte validé — l'original (image embarquée dans le .docx) reste à fournir par Master. Seul l'ordre des phases reprend le doc 02 §6 ; l'association des validations externes aux phases n'est pas établie. Ne pas utiliser ce tableau comme calendrier de validation avant vérification de l'original.]
 
 | 0. Fondations | 1. Mode Urgence + « Ça s'est mal passé » | 2. Hub + inventaire | 3. Atelier + débrief | 4. Pratique solo |
-| --- | --- | --- | --- | --- |
-| Porte 1 : relecture clinique et éducative | Porte 2 : pre-mortem adversarial | Porte 3 : tests utilisateurs sous stress | Avis juridique requis avant toute diffusion publique | — |
 
 Les phases se lisent de gauche à droite, sans échelle de temps. Chaque porte est une validation à passer avant commercialisation ; l'avis juridique est requis avant toute diffusion publique.
 

@@ -1,0 +1,10 @@
+{
+  "avertissement": "BROUILLON DE TEST — ce parcours n’est pas validé par des spécialistes. Il ne pose aucun diagnostic et ne remplace pas une aide professionnelle ou les services d’urgence.",
+  "brouillon": true,
+  "introduction": "Tu gardes le contrôle : tu peux passer une question, quitter à tout moment ou ne rien écrire. Par défaut, rien n’est enregistré.",
+  "ressourceCanada": {
+    "label": "Ressources du Gouvernement du Canada sur la prévention du suicide et la santé mentale",
+    "url": "https://www.canada.ca/en/public-health/services/suicide-prevention.html"
+  },
+  "titre": "Faire le point"
+}

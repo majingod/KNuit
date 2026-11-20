@@ -90,8 +90,8 @@ test('profil neuf : visite en ligne → 1 reload → offline, page rendue avec C
     ),
     controller: !!navigator.serviceWorker.controller,
   }))
-  expect(offline.h1).toBe('Application')
-  expect(offline.mainMaxWidth).toBe('640px')
+  expect(offline.h1).toBe('KNuit')
+  expect(offline.mainMaxWidth).toBe('672px')
   expect(offline.metaCSP).toBe(false)
   expect(offline.controller).toBe(true)
   expect(failed).toEqual([])
@@ -155,8 +155,8 @@ test('offline : navigation directe vers une route SPA jamais visitée → shell 
   }))
   // Le shell est servi POUR la route demandée (pas de redirection).
   expect(offline.url).toBe('/route-jamais-visitee')
-  expect(offline.h1).toBe('Application')
-  expect(offline.mainMaxWidth).toBe('640px')
+  expect(offline.h1).toBe('KNuit')
+  expect(offline.mainMaxWidth).toBe('672px')
   expect(offline.metaCSP).toBe(false)
   expect(offline.controller).toBe(true)
   expect(failed).toEqual([])

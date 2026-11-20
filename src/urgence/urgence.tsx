@@ -1,11 +1,8 @@
 import rawData from './content.json'
 import './urgence.css'
 
-// Forme du contenu statique Mode Urgence (Option A — import .json
-// inliné dans le bundle). numeroUrgence / noteNumero sont optionnels :
-// le placeholder de démonstration (Voie A) ne les a pas — le paragraphe
-// correspondant ne s'affiche alors pas (pas de « undefined » affiché).
-// Le vrai contenu, après validation expert, les fournira.
+// Forme du contenu statique Mode Urgence (import JSON inliné dans le
+// bundle pour rester disponible hors ligne).
 type Etape = { titre: string; texte: string }
 type ContenuUrgence = {
   avertissement: string
@@ -13,8 +10,6 @@ type ContenuUrgence = {
   etapes: Etape[]
   introduction: string
   titre: string
-  numeroUrgence?: string
-  noteNumero?: string
 }
 
 const data: ContenuUrgence = rawData
@@ -35,11 +30,6 @@ export function Urgence() {
           </li>
         ))}
       </ol>
-      {data.numeroUrgence && (
-        <p className="urgence-numero">
-          Urgence : {data.numeroUrgence} — {data.noteNumero}
-        </p>
-      )}
     </main>
   )
 }

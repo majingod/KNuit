@@ -7,7 +7,7 @@
 //
 // La variante est construite par le helper partagé
 // buildContentVariantCopy (tests/e2e/helpers.ts) : copie complète du
-// projet dans /tmp, variante brouillon:false dans la copie
+// projet dans le dossier temporaire du système, variante brouillon:false dans la copie
 // uniquement, build de la copie, servie sur un port dédié. Le
 // content.json réel n'est JAMAIS modifié (pas de
 // sauvegarde/restauration à rater), et dist/ n'est jamais reconstruit
@@ -28,13 +28,13 @@ let browser: Browser
 let variant: ContentVariantCopy
 
 test.beforeAll(async () => {
-  // Garde : le content.json réel doit être le placeholder attendu —
+  // Garde : le content.json réel doit être le brouillon attendu —
   // sinon on refuserait de construire la variante sur une base inconnue.
   const realJson = JSON.parse(
     await readFile(path.join(REPO_ROOT, 'src', 'urgence', 'content.json'), 'utf8'),
   ) as { brouillon: boolean; titre: string }
   expect(realJson.brouillon).toBe(true)
-  expect(realJson.titre).toBe('Mode Urgence (démonstration)')
+  expect(realJson.titre).toBe('Mode Urgence')
 
   variant = await buildContentVariantCopy({
     contentPath: path.join('src', 'urgence', 'content.json'),
@@ -60,12 +60,15 @@ test('brouillon: false — le bandeau d’avertissement est absent', async () =>
   // La page se rend (titre + introduction visibles) : l'absence du
   // bandeau n'est pas une page blanche.
   await expect(
-    page.getByRole('heading', { name: 'Mode Urgence (démonstration)', exact: true }),
+    page.getByRole('heading', { name: 'Mode Urgence', exact: true }),
   ).toBeVisible()
   await expect(
-    page.getByText('Ceci est un test de pipeline, pas un mode urgence.', {
+    page.getByText(
+      'Ces repères sont un brouillon destiné à tester l’interface. Ils ne constituent pas un protocole d’intervention.',
+      {
       exact: true,
-    }),
+      },
+    ),
   ).toBeVisible()
   await expect(page.locator('.urgence-avertissement')).toHaveCount(0)
   await context.close()

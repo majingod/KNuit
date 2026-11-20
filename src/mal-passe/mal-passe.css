@@ -1,0 +1,93 @@
+.mal-passe {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.mal-passe h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.mal-passe h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.mal-passe p {
+  margin: 0 0 1rem;
+}
+
+.mal-passe-avertissement,
+.mal-passe-ressources {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border: 2px solid currentColor;
+}
+
+.mal-passe-actions {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.mal-passe a,
+.mal-passe button {
+  display: inline-flex;
+  min-height: 48px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mal-passe-actions {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.mal-passe-actions a,
+.mal-passe-actions button {
+  width: 100%;
+}
+
+.mal-passe label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  font-weight: 700;
+}
+
+.mal-passe textarea {
+  display: block;
+  width: 100%;
+  min-height: 8rem;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.mal-passe a:focus-visible,
+.mal-passe button:focus-visible,
+.mal-passe textarea:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (min-width: 48rem) {
+  .mal-passe-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -177,8 +177,8 @@ test('migration 0.6 → 0.8 : ancien SW actif, bascule, puis offline', async () 
         'meta[http-equiv="Content-Security-Policy"]',
       ),
     }))
-    expect(offline.h1).toBe('Application')
-    expect(offline.mainMaxWidth).toBe('640px')
+    expect(offline.h1).toBe('KNuit')
+    expect(offline.mainMaxWidth).toBe('672px')
     expect(offline.metaCSP).toBe(false)
     expect(failed).toEqual([])
     await context.setOffline(false)

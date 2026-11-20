@@ -9,6 +9,15 @@ différent) aussi. Un bloc non inventorié fait échouer la gate,
 quelle que soit la valeur de `brouillon` : l'inventaire est la
 source de vérité, un bloc non listé est un angle mort.
 
+Pendant le développement, `npm run lint` accepte les contenus
+brouillons et en revue, qui restent signalés comme tels dans
+l'application. Avant toute commercialisation ou diffusion publique,
+`npm run check:release` impose que chaque bloc soit non brouillon,
+ait le statut `validé` et conserve le hash enregistré. Cette
+vérification ne remplace pas la validation humaine : elle contrôle
+uniquement l'inventaire, les métadonnées et l'intégrité du contenu ;
+elle ne publie ni ne déploie l'application.
+
 **Le hash est sémantique, pas un hash de fichier.** Le hash porte
 sur le contenu JSON, pas sur les octets du fichier :
 `sha256(JSON.stringify(sortKeysDeep(JSON.parse(contenu))))`. Un
@@ -36,6 +45,13 @@ la trace humaine de la validation ; il n'est pas vérifiable
 automatiquement par la gate.
 
 ## src/urgence/content.json
+
+statut: brouillon
+rôle: -
+date: -
+hash: -
+
+## src/mal-passe/content.json
 
 statut: brouillon
 rôle: -

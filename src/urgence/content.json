@@ -1,1 +1,28 @@
-{"avertissement":"Contenu de démonstration — pipeline uniquement. En cas d'urgence réelle, contactez vous-même les services d'urgence de votre pays avec votre propre téléphone.","brouillon":true,"etapes":[],"introduction":"Ceci est un test de pipeline, pas un mode urgence.","titre":"Mode Urgence (démonstration)"}
+{
+  "avertissement": "BROUILLON DE TEST — contenu non validé par un expert. Il ne remplace pas les services d’urgence, médicaux ou psychosociaux. En cas de danger immédiat, contacte les services d’urgence locaux depuis ton propre téléphone.",
+  "brouillon": true,
+  "etapes": [
+    {
+      "titre": "Mets l’activité en pause",
+      "texte": "Si tu le peux sans te mettre davantage en danger, éloigne-toi de la situation et dis clairement que tu veux arrêter."
+    },
+    {
+      "titre": "Cherche une aide immédiate",
+      "texte": "Si toi ou quelqu’un d’autre semble en danger ou a besoin de soins urgents, contacte directement les services d’urgence de ton lieu. Tu peux dire où tu es, ce que tu observes et ce qui s’est passé, avec tes mots."
+    },
+    {
+      "titre": "Choisis une présence",
+      "texte": "Si tu le souhaites, demande à une personne de confiance de rester avec toi ou de contacter un professionnel. Tu peux refuser de raconter plus que tu ne veux."
+    },
+    {
+      "titre": "Prends un moment à ton rythme",
+      "texte": "Si cela t’aide, nomme quelques choses que tu vois autour de toi ou concentre-toi sur un élément familier. Tu peux passer cette étape ou choisir autre chose."
+    },
+    {
+      "titre": "Quand tu seras prêt",
+      "texte": "Tu peux utiliser le bouton de retour du navigateur pour quitter cet écran. Aucune réponse n’est enregistrée ici."
+    }
+  ],
+  "introduction": "Ces repères sont un brouillon destiné à tester l’interface. Ils ne constituent pas un protocole d’intervention.",
+  "titre": "Mode Urgence"
+}

@@ -2,14 +2,8 @@
 // (Option A — import .json inliné dans le bundle par Vite), donc
 // pré-caché avec les assets hashés ; la page doit fonctionner
 // hors-ligne à la première visite (critère de sortie Phase 1).
-// Contenu = placeholder de démonstration (Voie A, décision Master
-// 2026-11-17) : pas de protocole réel, pas de numéro — le vrai contenu
-// viendra après validation expert. Les assertions portent donc sur le
-// placeholder EXACT (titre, avertissement, introduction, 0 étape,
-// absence de la ligne numero) : le test échoue si le JSON est mal
-// inliné. Les chaînes attendues ci-dessous sont recopiées du JSON ;
-// toute divergence de caractère (apostrophe, tiret) fait échouer le
-// test — c'est voulu.
+// Le contenu est un brouillon générique non opérationnel, sans numéro
+// d’urgence. Les assertions vérifient son intégrité hors ligne.
 // VRAI hors-ligne : le test offline démarre son propre serveur vite
 // sur un port dédié puis l'ARRÊTE avant la phase hors-ligne —
 // `context.setOffline` seul ne bloque pas les fetch() émis depuis le
@@ -28,11 +22,11 @@ import {
 const BASE = 'http://127.0.0.1:4174'
 let browser: Browser
 
-// Placeholder exact (src/urgence/content.json, Voie A).
-const TITRE = 'Mode Urgence (démonstration)'
+const TITRE = 'Mode Urgence'
 const AVERTISSEMENT =
-  "Contenu de démonstration — pipeline uniquement. En cas d'urgence réelle, contactez vous-même les services d'urgence de votre pays avec votre propre téléphone."
-const INTRODUCTION = 'Ceci est un test de pipeline, pas un mode urgence.'
+  'BROUILLON DE TEST — contenu non validé par un expert. Il ne remplace pas les services d’urgence, médicaux ou psychosociaux. En cas de danger immédiat, contacte les services d’urgence locaux depuis ton propre téléphone.'
+const INTRODUCTION =
+  'Ces repères sont un brouillon destiné à tester l’interface. Ils ne constituent pas un protocole d’intervention.'
 
 test.beforeAll(async () => {
   startVite('preview', 4174)
@@ -134,7 +128,7 @@ test('offline : première visite en ligne → navigation vers /urgence → Mode 
   expect(offline.h1).toBe(TITRE)
   expect(offline.avertissement).toBe(AVERTISSEMENT)
   expect(offline.mainText).toContain(INTRODUCTION)
-  expect(offline.etapes).toBe(0)
+  expect(offline.etapes).toBe(5)
   expect(offline.numeroPresent).toBe(false)
   expect(offline.avertissementFontWeight).toBe('700')
   expect(offline.controller).toBe(true)

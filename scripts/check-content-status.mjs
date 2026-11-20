@@ -14,9 +14,10 @@
 // orpheline, champ brouillon absent ou non booléen, combinaison non
 // autorisée, hash absent ou différent → échec. Les erreurs nomment
 // le fichier et la règle violée.
-// Usage : node scripts/check-content-status.mjs [--root <dir>]
+// Usage : node scripts/check-content-status.mjs [--root <dir>] [--release]
 // (--root sert aux tests : la gate lit <dir>/CONTENT-STATUS.md et
-// parcourt <dir>/src. Par défaut, la racine du dépôt.)
+// parcourt <dir>/src. --release impose que chaque bloc soit publié
+// et validé par un expert. Par défaut, la racine du dépôt.)
 import { createHash } from 'node:crypto'
 import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
@@ -207,7 +208,7 @@ export function discoverContentFiles(root) {
       if (entry.isDirectory()) {
         walk(full)
       } else if (entry.isFile() && entry.name === 'content.json') {
-        found.push(path.relative(root, full))
+        found.push(path.relative(root, full).split(path.sep).join('/'))
       }
     }
   }
@@ -225,12 +226,19 @@ export function discoverContentFiles(root) {
 // Une entrée manquante (entry null) fait échouer la gate, quelle
 // que soit la valeur de brouillon : tout content.json doit être
 // inventorié.
-export function evaluateBlock({ brouillon, entry, actualHash }) {
+export function evaluateBlock({ brouillon, entry, actualHash, release = false }) {
   if (entry === null || entry === undefined) {
     return {
       ok: false,
       reason:
         'aucune entrée dans CONTENT-STATUS.md (tout content.json doit être inventorié)',
+    }
+  }
+  if (release && brouillon !== false) {
+    return {
+      ok: false,
+      reason:
+        'pré-commercialisation : chaque contenu doit être non brouillon et validé par un expert',
     }
   }
   if (brouillon === true && entry.statut === 'brouillon') {
@@ -265,7 +273,7 @@ export function evaluateBlock({ brouillon, entry, actualHash }) {
   return { ok: false, reason: 'combinaison non autorisée' }
 }
 
-export function runGate(root) {
+export function runGate(root, { release = false } = {}) {
   const errors = []
   let statusText
   try {
@@ -287,6 +295,11 @@ export function runGate(root) {
     files = discoverContentFiles(root)
   } catch {
     return { ok: false, errors: ['src/ introuvable — aucun content.json découvert'] }
+  }
+  if (release && files.length === 0) {
+    errors.push(
+      'pré-commercialisation : aucun content.json découvert — validation des contenus impossible',
+    )
   }
   // Entrées orphelines : inventoriées mais sans fichier.
   for (const id of entries.keys()) {
@@ -321,6 +334,7 @@ export function runGate(root) {
       brouillon: content.brouillon,
       entry,
       actualHash,
+      release,
     })
     if (!verdict.ok) {
       errors.push(`${relative} : ${verdict.reason}`)
@@ -363,10 +377,14 @@ function main(argv) {
     }
     root = path.resolve(args[rootIndex + 1])
   }
-  const { ok, errors, checked } = runGate(root)
+  const { ok, errors, checked } = runGate(root, {
+    release: args.includes('--release'),
+  })
   if (ok) {
     console.log(
-      `check-content-status : OK — ${checked} bloc(s) vérifié(s), inventaire et transitions cohérents.`,
+      args.includes('--release')
+        ? `check-content-status : OK — ${checked} bloc(s) vérifié(s), tous validés pour pré-commercialisation.`
+        : `check-content-status : OK — ${checked} bloc(s) vérifié(s), inventaire et transitions cohérents.`,
     )
     return
   }

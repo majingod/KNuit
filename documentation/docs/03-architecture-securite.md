@@ -93,7 +93,7 @@ Les sections 1 à 9 ci-dessous sont la transcription fidèle du document validé
 
 ## 8. Règles de code et dépendances — amendement v1.1
 
-- CSP stricte, séparée dev / prod, à vérifier avec Vite. [Correction de cohérence 2026-11-19 — amendement n° 3 : Workbox retiré ; service worker écrit à la main, sans Workbox.]
+- CSP stricte, appliquée par en-têtes HTTP ; Vite utilise la même politique en développement et en prévisualisation. Le futur serveur de production devra appliquer cette politique exacte. [Correction de cohérence 2026-11-19 — amendement n° 11 : alignement sur `vite.config.ts` et les tests d'en-têtes.]
 - Lint interdisant innerHTML, dangerouslySetInnerHTML, insertAdjacentHTML, outerHTML, document.write, eval et new Function. Preact échappe par défaut mais ne rend pas l'UI sûre à lui seul. Revue du contenu importé.
 - Versions figées, lockfile, npm ci, Dependabot, npm audit, aucun script ou CDN tiers, liste figée des dépendances : Vite, Preact, ESLint.
 - Service worker écrit à la main, sans Workbox. Auditer le contenu précaché, désactiver les source maps en prod, définir la mise à jour du service worker. [Correction de cohérence 2026-11-19 — amendement n° 3 : Workbox retiré ; service worker écrit à la main, sans Workbox.]

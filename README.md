@@ -1,8 +1,16 @@
 # KNuit
 
-Squelette d'application web progressive (PWA) — Vite + Preact + TypeScript,
-100 % locale, sans compte ni synchronisation. Aucune donnée applicative
-pour l'instant : la page est vide, en attente des fondations.
+Application web progressive (PWA) — Vite + Preact + TypeScript, locale,
+sans compte ni synchronisation. La préversion comprend les parcours de
+la Phase 1 : Mode Urgence et « Faire le point ». Les contenus affichés sont
+des brouillons de test non validés par des spécialistes et ne doivent pas
+être utilisés comme protocoles médicaux, psychologiques ou de sécurité.
+Le journal chiffré facultatif n’est pas encore inclus : la note de test
+reste en mémoire pendant le parcours et n’est jamais enregistrée.
+
+L’interface privilégie les téléphones et les tablettes et reste utilisable
+dans un navigateur sur Windows. Les tests de viewport vérifient des tailles
+mobile, tablette et bureau; aucun appareil physique n’a encore été certifié.
 
 ## Développement
 
@@ -168,6 +176,10 @@ mécanisme qui l'empêche est dans le dépôt, pas dans la discipline :
   informations. Un contenu validé modifié doit être re-validé :
   le hash change, la gate échoue tant que l'entrée n'est pas mise
   à jour.
+- **Avant commercialisation ou diffusion publique** : exécuter
+  `npm run check:release`. Cette vérification échoue tant qu'un bloc
+  est brouillon, en revue, non validé ou dont le hash a changé. Elle
+  ne remplace pas la validation humaine et ne publie rien.
 - Le test `tests/e2e/content-status.spec.ts` vérifie l'invariant
   au niveau affiché (brouillon: true → bandeau visible,
   brouillon: false → bandeau absent, pour chaque bloc) et les six

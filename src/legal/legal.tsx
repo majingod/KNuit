@@ -20,6 +20,11 @@ export function Legal() {
         aucune synchronisation, aucun envoi de données vers un
         serveur.
       </p>
+      <p>
+        Si vous ouvrez un lien vers une ressource externe, votre navigateur
+        communique directement avec le site choisi. Sa politique de
+        confidentialité s’applique alors.
+      </p>
       <h2>Cookies et traceurs</h2>
       <p>Cette application n’utilise ni cookies ni traceurs.</p>
       <h2>Contenus</h2>

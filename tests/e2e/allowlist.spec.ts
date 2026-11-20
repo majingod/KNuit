@@ -160,6 +160,6 @@ test('hors-ligne : /api/status échoue, pas de réponse servie depuis le cache',
   // La page elle-même se recharge depuis le cache : l'allowlist n'a
   // pas cassé le caching des assets statiques.
   await page.reload({ waitUntil: 'domcontentloaded' })
-  await expect(page.locator('h1')).toHaveText('Application')
+  await expect(page.locator('h1')).toHaveText('KNuit')
   await context.close()
 })

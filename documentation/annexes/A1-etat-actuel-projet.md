@@ -37,6 +37,7 @@ Structure des sources (vérifiée) :
 ```
 src/
   app.tsx
+  mal-passe/
   urgence/
   about/
   legal/
@@ -44,7 +45,7 @@ src/
 public/
   sw.js
 tests/
-  e2e/            # 14 specs Playwright
+  e2e/            # 14 fichiers de specs Playwright, 45 tests
 scripts/
   check-content-status.mjs
 ```
@@ -56,7 +57,7 @@ scripts/
 | Dépôt | github.com/majingod/KNuit |
 | Visibilité | Privé |
 | Branche principale | `main` |
-| Tête de branche vérifiée | `598f460c` |
+| Tête de branche vérifiée le 2026-11-18 | `598f460c` |
 | Déploiement public en V1 | Non — gelé |
 | Cloudflare Pages | Gelé en V1 |
 
@@ -64,8 +65,8 @@ Règle en vigueur : **aucun push sans le mot « Pousse » de Master.**
 
 ### 2.3 Suite de vérification
 
-- **Suite vérifiée : 39/39.**
-- Tests end-to-end : 14 specs Playwright (`tests/e2e`).
+- **Suite exécutée le 2026-11-20 : 45/45** (`npm run test:e2e`).
+- Tests end-to-end : 45 tests répartis dans 14 fichiers de specs Playwright (`tests/e2e`).
 - Script de contrôle : `scripts/check-content-status.mjs`.
 
 Aucun autre résultat de test n'est affirmé dans cette annexe.
@@ -192,7 +193,7 @@ Sources de cette annexe, dans l'ordre des sources de vérité :
 1. Décisions de Master (voir A2).
 2. Validations par Master (voir A3) ; validation experte prévue avant commercialisation (voir doc 04).
 3. Documents validés 01 à 03 ; document 04 (Registre de validation) au statut BROUILLON PRÉPARÉ.
-4. Preuves vérifiables : stack, dépôt, tête de branche `598f460c`, suite 39/39, structure des sources.
+4. Preuves vérifiables au 2026-11-18 : stack, dépôt, tête de branche `598f460c`, suite annoncée 39/39, structure des sources. Mise à jour au 2026-11-20 : 45 tests dans 14 fichiers, suite exécutée avec succès (voir §2.3).
 5. Recommandations IA — en dernier, et marquées comme telles quand elles apparaissent.
 
 Limites :

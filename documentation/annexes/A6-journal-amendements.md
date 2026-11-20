@@ -274,6 +274,48 @@ Note : l'affirmation de l'amendement n° 1 sur les corrections « Tailscale / Op
 
 ---
 
+### Amendement n° 11 — 2026-11-19 — Portabilité Windows et gate pré-commercialisation
+
+| Champ | Détail |
+|---|---|
+| **Date** | 2026-11-19 |
+| **Décideur** | Master |
+| **Origine** | Demande explicite de correction des écarts de cohérence et décision de conserver les builds de développement avec contenu brouillon, avec une gate de publication stricte |
+| **Documents touchés** | README, CONTENT-STATUS.md, package.json, package-lock.json, scripts/check-content-status.mjs, vite.config.ts, tests/e2e, 01, 03, A1, A5, A6 |
+
+**Contenu de l'amendement :**
+
+1. **Portabilité Windows** : normalisation des chemins découverts par la gate ; détection et remplacement du marqueur du service worker indépendants des fins de ligne LF/CRLF ; tests Playwright adaptés aux chemins temporaires Windows, au lancement de Vite par Node et aux jonctions Windows.
+2. **Dépendance Playwright** : mise à jour de `@playwright/test` vers 1.65.1 ; `npm audit` ne signale plus de vulnérabilité.
+3. **Gate de contenu** : les vérifications de développement continuent d'accepter les contenus brouillons et en revue. `npm run check:release` exige, avant commercialisation ou diffusion publique, que chaque contenu soit non brouillon, déclaré `validé` avec les métadonnées requises et le hash correspondant. Cette commande ne remplace pas la validation humaine et ne déploie rien.
+4. **Cohérence documentaire** : CSP documentée comme identique en développement et en prévisualisation ; nombre de specs corrigé à 13 fichiers / 39 tests ; références de commit explicitement datées du 2026-11-18 ; feuille de route de la Vision maintenue provisoire, sans attribuer les validations aux phases avant vérification de l'original.
+5. **Vérification** : `npm run lint` et `npm run test:e2e` réussissent sur Windows ; les 39 tests passent.
+
+**Conséquence :** le développement reste possible avec des contenus clairement marqués comme brouillons ; la vérification dédiée interdit la pré-commercialisation si un contenu n'a pas été validé ou si son hash ne correspond plus.
+
+---
+
+### Amendement n° 12 — 2026-11-20 — Parcours Phase 1 et priorité mobile
+
+| Champ | Détail |
+|---|---|
+| **Date** | 2026-11-20 |
+| **Décideur** | Master |
+| **Origine** | Demande de tester le contenu et les fonctionnalités avant validation, avec priorité mobile/tablette et compatibilité Windows; choix explicite de la Phase 1 |
+| **Documents touchés** | README, CONTENT-STATUS.md, application, tests E2E, A1, A5, A6 |
+
+**Contenu de l'amendement :**
+
+1. **Mode Urgence** : remplacement du texte de pipeline par un brouillon générique d’orientation, sans numéro d’urgence ni procédure médicale ou technique.
+2. **« Ça s'est mal passé »** : ajout d’un parcours interruptible, avec vérification de sécurité immédiate, note temporaire non enregistrée, effacement à la sortie et ressource officielle canadienne ouverte à la demande.
+3. **Brouillons** : les deux blocs restent explicitement `brouillon: true`; la gate de pré-commercialisation demeure inchangée et les deux contenus ne sont pas validés par des spécialistes.
+4. **Plateformes** : interface conçue en priorité pour les téléphones et tablettes, avec tests responsive et prise en charge navigateur Windows.
+5. **Journal chiffré** : non implémenté dans cette préversion; la note du parcours est temporaire et n’est jamais enregistrée, en attendant les fondations du coffre chiffré.
+
+**Conséquence :** les parcours de la Phase 1 peuvent être testés sans présenter les brouillons comme des conseils validés. Le journal chiffré reste à construire; la validation experte est requise avant toute diffusion publique.
+
+---
+
 ## Modèle d'entrée vierge (à copier pour chaque nouvel amendement)
 
 ```markdown

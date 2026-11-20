@@ -1,41 +1,50 @@
 .footer {
-  max-width: 40rem;
+  max-width: 76rem;
   margin: 0 auto;
   padding: 1rem;
-  border-top: 1px solid currentColor;
+  border-top: 1px solid var(--gold-line);
+  background: linear-gradient(90deg, rgba(14, 10, 10, 0.96), rgba(32, 17, 18, 0.92));
 }
 
 .footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
 }
 
-/* Cible 48px INTENTIONNELLE sur toutes les viewports (1.2c/1.3) :
-   min-height: 48px sans breakpoint — footer uniforme, cible
-   généreuse partout. Ne pas « corriger » en ajoutant un breakpoint
-   desktop : le test footer-keyboard.spec.ts exige 48px partout.
-   Les liens du footer sont des cibles inline-flex de 48px de haut
-   — mesuré par le test (boundingBox ≥ 48px), pas affirmé.
-   Ordre de tabulation = ordre DOM (1.2c) : aucun tabindex, aucune
-   propriété order — le flex ne réordonne rien ; vérifié au clavier
-   par le même test. */
 .footer nav a {
   display: inline-flex;
-  align-items: center;
-  box-sizing: border-box;
   min-height: 48px;
-  padding: 0 0.75rem;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: #e4cfb5;
+  font-size: 0.88rem;
+  text-align: center;
+  text-decoration: none;
 }
 
-/* Indicateur de focus visible AU CLAVIER (1.2c) : :focus-visible
-   ne s'applique qu'à la navigation clavier (pas au clic souris) —
-   c'est le comportement voulu, pas un oubli. outline en
-   currentColor (couleur du texte du lien, lisible par construction
-   sur le fond) : visible en thème clair comme sombre, sans couleur
-   codée en dur. Le contrôle négatif (retirer cette règle) fait
-   échouer le test footer-keyboard — vérifié le 2026-11-18. */
+.footer nav a:hover {
+  border-color: var(--gold-line);
+  background: rgba(209, 157, 90, 0.08);
+  color: var(--gold-light);
+}
+
 .footer nav a:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 2px;
+}
+
+@media (min-width: 42rem) {
+  .footer {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .footer nav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }

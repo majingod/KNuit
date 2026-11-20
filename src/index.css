@@ -1,9 +1,73 @@
 :root {
   font-family: system-ui, sans-serif;
   line-height: 1.5;
-  color-scheme: light dark;
+  color-scheme: dark;
+  color: #f4e8d8;
+  background: #100b0b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --night: #100b0b;
+  --night-raised: #1d1213;
+  --wine: #642b3b;
+  --gold: #c99a5e;
+  --gold-light: #f0c98e;
+  --gold-line: rgba(215, 169, 105, 0.46);
+  --cream: #f5eadb;
+  --muted: #d3c3b4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--night);
 }
 
 body {
+  min-width: 320px;
+  min-height: 100vh;
   margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -18rem, rgba(101, 42, 57, 0.62), transparent 55rem),
+    radial-gradient(ellipse at 90% 75%, rgba(84, 40, 35, 0.14), transparent 38rem),
+    linear-gradient(160deg, #100b0b, #171011 58%, #0e0a0a);
+  color: var(--cream);
+}
+
+body::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(222, 181, 123, 0.14) 0.6px, transparent 0.8px),
+    linear-gradient(90deg, transparent 49.9%, rgba(211, 165, 104, 0.035) 50%, transparent 50.1%);
+  background-size: 23px 23px, 100% 100%;
+  content: '';
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--gold-light);
+  text-underline-offset: 0.18em;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: #733348;
+  color: #fff8ec;
 }

@@ -1,5 +1,3 @@
-import './legal.css'
-
 // Mentions légales — contenu neutre en JSX pur (Option 2, décision
 // Master 2026-11-17) : pas de content.json, pas de CONTENT-STATUS.md,
 // pas de gate, pas de validation experte requise. Texte minimal et

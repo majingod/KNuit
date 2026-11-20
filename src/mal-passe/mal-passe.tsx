@@ -1,6 +1,5 @@
 import { useState } from 'preact/hooks'
 import rawData from './content.json'
-import './mal-passe.css'
 
 type ContenuMalPasse = {
   avertissement: string

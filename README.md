@@ -99,7 +99,11 @@ le filet de sécurité depuis 0.4, on ne l'affaiblit pas.
 ### Styles en JSX (décision 2)
 
 - Phase 1 utilise exclusivement des classes CSS dans des fichiers
-  `.css` importés, jamais `style={{...}}` en JSX.
+  `.css` reliés comme feuilles de style externes depuis `index.html`
+  (pas d'import CSS depuis les composants), jamais `style={{...}}`
+  en JSX. Cette liaison externe est nécessaire en développement :
+  Vite injecte les CSS importés depuis TypeScript dans des balises
+  `<style>`, bloquées par la CSP stricte `style-src 'self'`.
 - Justification honnête (vérifiée dans le `preact.mjs` installé) :
   en Preact, les props `style` sont appliquées via CSSOM (`el.style` /
   `cssText`), pas par `setAttribute('style', ...)` — la CSP ne les

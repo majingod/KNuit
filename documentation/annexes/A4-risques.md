@@ -225,7 +225,7 @@ Les risques R-06 à R-11 sont les risques produit enregistrés dans la consolida
 - La promesse « aucune donnée vers un serveur » (about.tsx / legal.tsx) reste vraie avec Cloudflare Pages (statique pur) ; l'ajout d'Access signifie que les métadonnées de connexion (IP, horodatage) passent par Cloudflare — c'est de la métadonnée, pas de la donnée utilisateur, donc la promesse tient (Master, revue 1.3, 2026-11-18).
 - PBKDF2 acceptable en v1, Argon2id en V1.1 ; ne pas présenter PBKDF2 comme équivalent à Argon2id (document 02).
 - E = 4 (le test Enter utilise `startVite('preview', 4191)`, pas `startStaticServer`, donc il n'est pas affecté par la mutation E) (correction 1.3, 2026-11-18).
-- Footer absent sur /urgence, sortie = bouton retour du navigateur (Haute n°1, push groupé, 2026-11-17).
+- Footer absent sur /urgence ; le lien explicite « Retour à l’accueil » permet de quitter cette page, y compris dans une PWA installée (résolu le 2026-11-20).
 - Cible 48 px intentionnelle sur toutes les viewports, sans breakpoint desktop (1.2c/1.3).
 - Regex trois surfaces : listes réduites 911|112 sur dist/ et sources, liste complète sur content.json source, lookbehind `(?<!#)` (1.2a, 2026-11-18).
 - Le workflow de validation du contenu (brouillon + bandeau + gate + hash sémantique) permet d'écrire du contenu brouillon sans risque de publication accidentelle (Option 1, 2026-11-17).

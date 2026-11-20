@@ -1,5 +1,3 @@
-import './footer.css'
-
 // Pied de page — contenu neutre en JSX pur (Option 2, décision
 // Master 2026-11-17). Intégré dans app.tsx, visible sur toutes
 // les pages SAUF /urgence (footer masqué sur /urgence — décision

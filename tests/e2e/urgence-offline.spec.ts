@@ -69,6 +69,13 @@ test('online : accès direct à /urgence', async () => {
     page.getByRole('heading', { name: TITRE, exact: true }),
   ).toBeVisible()
   await expect(page.getByText(AVERTISSEMENT, { exact: true })).toBeVisible()
+  const returnLink = page
+    .getByRole('main')
+    .getByRole('link', { name: 'Retour à l’accueil' })
+  await expect(returnLink).toBeVisible()
+  await expect(returnLink).toHaveAttribute('href', '/')
+  await returnLink.click()
+  await expect(page).toHaveURL(`${BASE}/`)
   await context.close()
 })
 
@@ -132,6 +139,11 @@ test('offline : première visite en ligne → navigation vers /urgence → Mode 
   expect(offline.numeroPresent).toBe(false)
   expect(offline.avertissementFontWeight).toBe('700')
   expect(offline.controller).toBe(true)
+  await page.getByRole('link', { name: 'Retour à l’accueil' }).click()
+  await expect(page).toHaveURL(`${base}/`)
+  await expect(
+    page.getByRole('heading', { name: 'Bienvenue sur Kink de Nuit' }),
+  ).toBeVisible()
   expect(failed).toEqual([])
   expect(errors).toEqual([])
   await context.setOffline(false)

@@ -1,5 +1,3 @@
-import './about.css'
-
 // Page À propos — contenu neutre en JSX pur (Option 2, décision
 // Master 2026-11-17) : pas de content.json, pas de CONTENT-STATUS.md,
 // pas de gate. Le texte ci-dessous est factuel (README, document de

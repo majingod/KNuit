@@ -1,5 +1,4 @@
 import rawData from './content.json'
-import './urgence.css'
 
 // Forme du contenu statique Mode Urgence (import JSON inliné dans le
 // bundle pour rester disponible hors ligne).
@@ -17,6 +16,9 @@ const data: ContenuUrgence = rawData
 export function Urgence() {
   return (
     <main className="urgence">
+      <a className="urgence-retour" href="/">
+        <span aria-hidden="true">←</span> Retour à l’accueil
+      </a>
       {data.brouillon && (
         <p className="urgence-avertissement">{data.avertissement}</p>
       )}

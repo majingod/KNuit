@@ -43,3 +43,11 @@ test('preview : aucune <meta> CSP dans le HTML servi', async () => {
 test('dev : mêmes en-têtes sur les 4 ressources', async () => {
   await checkFourResources(DEV)
 })
+
+test('dev : les styles restent chargés avec la CSP stricte', async ({ page }) => {
+  await page.goto(DEV)
+  const nightColor = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue('--night').trim(),
+  )
+  expect(nightColor).toBe('#100b0b')
+})

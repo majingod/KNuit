@@ -217,7 +217,6 @@ Limites :
 - `esModuleInterop` / `allowSyntheticDefaultImports` non vérifiés dans `tsconfig.app.json`.
 - ESLint : les scripts héritent de `document`/`window` via le bloc « Hors src/ » (noté, pas un problème).
 - Périmètre du scan « sources » (`no-tel.spec.ts`) : `src/` (`.tsx`/`.css`) + `index.html` à la racine seulement ; un `.css` dans `tests/` avec un numéro légitime ne serait pas scanné.
-- `/urgence` sans sortie visible en PWA installée (déclencheur : quand l'app pourra être partagée).
 - `validUntil` : à décider à la première validation de contenu.
 - Re-mesure de E si les helpers sont unifiés (déclencheur).
 - Message d'échec H2 auto-documentant (déclencheur : deuxième bloc de sécurité ajouté).
